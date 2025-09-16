@@ -1,1 +1,18 @@
-data
+[
+  {
+    "id": 1,
+    "judul": "Promo Umroh Spesial",
+    "harga": 25000000,
+    "lokasi": "Mekkah - Madinah",
+    "kontak": "+628123456789",
+    "deskripsi": "Paket umroh 10 hari, hotel bintang 4, antar-jemput, visa termasuk."
+  },
+  {
+    "id": 2,
+    "judul": "Umrah Hemat",
+    "harga": 18000000,
+    "lokasi": "Mekkah",
+    "kontak": "+628987654321",
+    "deskripsi": "Paket umrah 7 hari, hotel dekat masjid, tanpa penerbangan."
+  }
+]
