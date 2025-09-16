@@ -9,7 +9,15 @@
       "active": true
     }
   ],
-  "contacts": [],
+  "contacts": [
+    {
+      "id": "mfmmf2s9dczs",
+      "name": "jamaluddin",
+      "email": "idarohpusat@gmail.com",
+      "phone": "+6281342296661",
+      "notes": "Owner Albary Trevel"
+    }
+  ],
   "socialLinks": [
     {
       "id": "mfmme6s4j7cr",
