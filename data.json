@@ -10,5 +10,12 @@
     }
   ],
   "contacts": [],
-  "socialLinks": []
+  "socialLinks": [
+    {
+      "id": "mfmme6s4j7cr",
+      "platform": "Facebook",
+      "url": "https://www.facebook.com/albaryharamain/",
+      "icon": "Facebook"
+    }
+  ]
 }
