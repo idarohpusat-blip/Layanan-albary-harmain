@@ -1,12 +1,16 @@
 {
-  "services": [
+  "layanan": [
     {
-      "id": "svc_mfmgdfhlpvl03v",
-      "name": "Sertifikat",
-      "desc": "harga murah meriah",
-      "price": "1500000",
-      "image": null
+      "id": 1,
+      "nama": "Contoh Layanan",
+      "harga": "250000",
+      "link": "https://contoh.com",
+      "deskripsi": "Deskripsi singkat",
+      "gambar": "https://raw.githubusercontent.com/.../images/xxx.jpg",
+      "createdAt": 1699999999999
     }
   ],
-  "contacts": []
+  "kontak": [
+    { "id": 1, "nama": "WhatsApp", "tipe": "tel", "nilai": "+62xxxx" }
+  ]
 }
