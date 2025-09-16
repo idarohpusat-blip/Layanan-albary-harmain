@@ -1,1 +1,12 @@
-
+{
+  "services": [
+    {
+      "id": "svc_mfmgdfhlpvl03v",
+      "name": "Sertifikat",
+      "desc": "harga murah meriah",
+      "price": "1500000",
+      "image": null
+    }
+  ],
+  "contacts": []
+}
