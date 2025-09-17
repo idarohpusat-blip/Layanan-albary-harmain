@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albary Travel - Layanan Travel Terpercaya</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Islamic Pattern Background */
+        .islamic-pattern {
+            background-color: #f8f4e6;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(120, 119, 198, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 119, 198, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(120, 219, 255, 0.1) 0%, transparent 30%);
+            position: relative;
+        }
+
+        .islamic-pattern::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23a3c9a8' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+            z-index: 0;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animasi */
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #88d8b0;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6ab08a;
+        }
+
+        /* Service Card Hover Effect */
+        .service-card {
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Modal Styles */
+        .modal-backdrop {
+            backdrop-filter: blur(5px);
+        }
+
+        /* Islamic Quote */
+        .islamic-quote {
+            font-family: 'Amiri', serif;
+            line-height: 1.8;
+        }
+
+        /* Testimonial Card */
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive Modal Layout */
+        @media (min-width: 768px) {
+            .modal-content {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .modal-image {
+                flex: 1;
+                max-width: 40%;
+            }
+
+            .modal-details {
+                flex: 1;
+                padding-left: 2rem;
+            }
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #059669;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            background-color: #059669;
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.error {
+            background-color: #dc2626;
+        }
+
+        /* Form Validation */
+        .form-error {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        input.error,
+        textarea.error {
+            border-color: #dc2626;
+        }
+    </style>
+</head>
+
+<body class="islamic-pattern">
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Header -->
+    <header class="bg-emerald-800 text-white shadow-lg sticky top-0 z-40">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <img src="https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/546180413_703830669384809_8963996312796683692_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeH7LHkP4SCNqclhwR98U72luZyyUMCXk7u5nLJQwJeTuxmaAWJO9jyFZ52qkdUkJqbw7n8PXQjXEI4rPa5pbNQS&_nc_ohc=Qd5KmjN1lbwQ7kNvwH4vKw4&_nc_oc=Adk_rdNL5-ZATKbSeA1UPQOKuf7Tv9uNkMJkXeeYe8TYOqsWrXYebMoqowsDdeCapco&_nc_zt=23&_nc_ht=scontent-fra5-1.xx&_nc_gid=tkJyriBjviRD1UaIZ6TvGw&oh=00_AfaKyH0-kxxEZqeK2bIVCNj0i8LtN6rZBaxtTfV4VbjwBA&oe=68CF2ADB"
+                        alt="Albary Travel Logo" class="h-16 rounded-lg">
+                    <h1 class="text-2xl md:text-3xl font-bold">Albary Travel</h1>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-6">
+                        <li><a href="#" class="hover:text-emerald-200 transition">Beranda</a></li>
+                        <li><a href="#services" class="hover:text-emerald-200 transition">Layanan</a></li>
+                        <li><a href="#testimonials" class="hover:text-emerald-200 transition">Testimoni</a></li>
+                        <li><a href="#contact" class="hover:text-emerald-200 transition">Kontak</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-button" class="md:hidden text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div id="mobile-menu"
+            class="mobile-menu fixed inset-y-0 left-0 w-64 bg-emerald-800 p-6 shadow-lg z-50 md:hidden">
+            <div class="flex justify-between items-center mb-8">
+                <img src="https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/546180413_703830669384809_8963996312796683692_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeH7LHkP4SCNqclhwR98U72luZyyUMCXk7u5nLJQwJeTuxmaAWJO9jyFZ52qkdUkJqbw7n8PXQjXEI4rPa5pbNQS&_nc_ohc=Qd5KmjN1lbwQ7kNvwH4vKw4&_nc_oc=Adk_rdNL5-ZATKbSeA1UPQOKuf7Tv9uNkMJkXeeYe8TYOqsWrXYebMoqowsDdeCapco&_nc_zt=23&_nc_ht=scontent-fra5-1.xx&_nc_gid=tkJyriBjviRD1UaIZ6TvGw&oh=00_AfaKyH0-kxxEZqeK2bIVCNj0i8LtN6rZBaxtTfV4VbjwBA&oe=68CF2ADB"
+                    alt="Albary Travel Logo" class="h-12 rounded-lg">
+                <button id="close-mobile-menu" class="text-white text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="space-y-4">
+                <li><a href="#" class="block py-2 hover:text-emerald-200 transition">Beranda</a></li>
+                <li><a href="#services" class="block py-2 hover:text-emerald-200 transition">Layanan</a></li>
+                <li><a href="#testimonials" class="block py-2 hover:text-emerald-200 transition">Testimoni</a></li>
+                <li><a href="#contact" class="block py-2 hover:text-emerald-200 transition">Kontak</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 md:py-24 content-wrapper relative overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-0 right-0 w-1/3 h-full opacity-20">
+                <img src="https://content.mabruk.co.id/Upload/2023/12/26/zcvERBwM/20231226174019328.jpg?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Mekkah" class="w-full h-full object-cover">
+            </div>
+            <div class="absolute bottom-0 left-0 w-1/3 h-full opacity-20">
+                <img src="https://miro.medium.com/v2/resize:fit:800/1*z-QmV06e8ETgVelTNBOEeQ.jpeg?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Madinah" class="w-full h-full object-cover">
+            </div>
+        </div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl md:text-5xl font-bold text-emerald-900 mb-6 fade-in">Selamat Datang di Albary Travel
+            </h2>
+            <p class="text-xl text-emerald-700 max-w-2xl mx-auto mb-10 fade-in">Layanan travel terpercaya untuk
+                perjalanan spiritual Anda dengan pengalaman yang tak terlupakan</p>
+            <div class="islamic-quote text-2xl text-emerald-800 italic mb-10 fade-in">"Dan sempurnakanlah ibadah haji
+                dan umrah untuk Allah..." (QS. Al-Baqarah: 196)</div>
+            <a href="#services"
+                class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full transition duration-300 transform hover:scale-105 fade-in">Lihat
+                Layanan Kami</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-white bg-opacity-80 content-wrapper">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-emerald-900 mb-4">Layanan Kami</h2>
+            <p class="text-center text-emerald-700 max-w-2xl mx-auto mb-12">Kami menyediakan berbagai layanan untuk
+                memenuhi kebutuhan perjalanan spiritual Anda</p>
+
+            <!-- Loading Spinner -->
+            <div id="services-loading" class="spinner mb-8"></div>
+
+            <div id="services-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Services will be loaded here -->
+            </div>
+
+            <!-- Error Message -->
+            <div id="services-error" class="text-center text-red-600 mt-8 hidden">
+                <i class="fas fa-exclamation-circle text-2xl mb-2"></i>
+                <p>Gagal memuat layanan. Silakan coba lagi nanti.</p>
+                <button id="retry-services"
+                    class="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded">
+                    Coba Lagi
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 bg-emerald-50 content-wrapper">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-emerald-900 mb-4">Testimoni Jemaah</h2>
+            <p class="text-center text-emerald-700 max-w-2xl mx-auto mb-12">Apa kata jemaah yang telah menggunakan
+                layanan kami</p>
+
+            <!-- Loading Spinner -->
+            <div id="testimonials-loading" class="spinner mb-8"></div>
+
+            <div id="testimonials-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonials will be loaded here -->
+            </div>
+
+            <!-- Error Message -->
+            <div id="testimonials-error" class="text-center text-red-600 mt-8 hidden">
+                <i class="fas fa-exclamation-circle text-2xl mb-2"></i>
+                <p>Gagal memuat testimoni. Silakan coba lagi nanti.</p>
+                <button id="retry-testimonials"
+                    class="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded">
+                    Coba Lagi
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 content-wrapper">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-emerald-900 mb-4">Hubungi Kami</h2>
+            <p class="text-center text-emerald-700 max-w-2xl mx-auto mb-12">Tim kami siap membantu Anda untuk
+                merencanakan perjalanan spiritual yang tak terlupakan</p>
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8">
+                <div id="contact-container" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Contact info will be loaded here -->
+                </div>
+
+                <!-- Loading Spinner -->
+                <div id="contact-loading" class="spinner my-8"></div>
+
+                <!-- Error Message -->
+                <div id="contact-error" class="text-center text-red-600 mt-8 hidden">
+                    <i class="fas fa-exclamation-circle text-2xl mb-2"></i>
+                    <p>Gagal memuat informasi kontak. Silakan coba lagi nanti.</p>
+                    <button id="retry-contact"
+                        class="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded">
+                        Coba Lagi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-emerald-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <p>&copy; 2023 Albary Travel. All rights reserved.</p>
+                </div>
+                <div id="social-links" class="flex space-x-4">
+                    <!-- Social links will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Service Detail Modal -->
+    <div id="service-modal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden modal-backdrop">
+        <div class="bg-white rounded-xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto m-4">
+            <div class="p-6 modal-content">
+                <div class="modal-image mb-6 md:mb-0">
+                    <img id="modal-image" src="" alt="" class="w-full h-auto rounded-lg">
+                </div>
+                <div class="modal-details">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="modal-title" class="text-2xl font-bold text-emerald-900"></h3>
+                        <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-2xl"></i>
+                        </button>
+                    </div>
+                    <div class="mb-6">
+                        <p id="modal-description" class="text-gray-700"></p>
+                    </div>
+                    <div class="mb-6">
+                        <p id="modal-price" class="text-xl font-bold text-emerald-700"></p>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <button id="contact-us"
+                            class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300">
+                            <i class="fas fa-phone mr-2"></i> Hubungi Kami
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fetch data from JSON
+        async function fetchData() {
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/idarohpusat-blip/Layanan-albary-harmain/refs/heads/main/data.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                showToast('Gagal memuat data. Silakan coba lagi.', 'error');
+                return {
+                    services: [],
+                    contacts: [],
+                    socialLinks: [],
+                    testimonials: []
+                };
+            }
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Truncate text
+        function truncateText(text, maxLength = 100) {
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = type === 'error' ? 'toast error' : 'toast';
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Validate email
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Validate phone
+        function isValidPhone(phone) {
+            const re = /^[\+]?[1-9][\d]{0,15}$/;
+            return re.test(phone.replace(/\D/g, ''));
+        }
+
+        // Load services
+        async function loadServices(services) {
+            const container = document.getElementById('services-container');
+            const loading = document.getElementById('services-loading');
+            const error = document.getElementById('services-error');
+
+            // Show loading, hide error and container
+            loading.classList.remove('hidden');
+            error.classList.add('hidden');
+            container.innerHTML = '';
+
+            try {
+                // If services is empty, try to fetch data
+                if (!services || services.length === 0) {
+                    const data = await fetchData();
+                    services = data.services;
+                }
+
+                // Hide loading
+                loading.classList.add('hidden');
+
+                if (services.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-8">
+                            <i class="fas fa-box-open text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-500">Tidak ada layanan yang tersedia saat ini.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Render services
+                services.filter(service => service.active).forEach(service => {
+                    const serviceCard = document.createElement('div');
+                    serviceCard.className = 'bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 service-card slide-in';
+                    serviceCard.innerHTML = `
+                        <div class="relative">
+                            <img src="${service.image}" alt="${service.name}" class="w-full h-48 object-cover">
+                            <div class="absolute top-0 right-0 bg-emerald-600 text-white py-1 px-3 rounded-bl-lg">
+                                <span class="font-bold">${formatCurrency(service.price)}</span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-lg font-bold text-emerald-900 mb-2">${service.name}</h3>
+                            <p class="text-gray-600 mb-4 text-sm">${truncateText(service.description, 80)}</p>
+                            <div class="flex flex-wrap gap-2">
+                                <button class="view-detail bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-1 px-3 rounded-lg transition duration-300 flex-1 text-sm" data-id="${service.id}">
+                                    <i class="fas fa-info-circle mr-1"></i> Detail
+                                </button>
+                                <button class="whatsapp-share bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded-lg transition duration-300 flex-1 text-sm" data-id="${service.id}">
+                                    <i class="fab fa-whatsapp mr-1"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(serviceCard);
+                });
+
+                // Add event listeners to detail buttons
+                document.querySelectorAll('.view-detail').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const serviceId = this.getAttribute('data-id');
+                        const service = services.find(s => s.id === serviceId);
+                        showServiceDetail(service);
+                    });
+                });
+
+                // Add event listeners to WhatsApp share buttons
+                document.querySelectorAll('.whatsapp-share').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const serviceId = this.getAttribute('data-id');
+                        const service = services.find(s => s.id === serviceId);
+                        shareToWhatsApp(service);
+                    });
+                });
+
+            } catch (error) {
+                console.error('Error loading services:', error);
+                loading.classList.add('hidden');
+                error.classList.remove('hidden');
+            }
+        }
+
+        // Load testimonials
+        async function loadTestimonials(testimonials) {
+            const container = document.getElementById('testimonials-container');
+            const loading = document.getElementById('testimonials-loading');
+            const error = document.getElementById('testimonials-error');
+
+            // Show loading, hide error and container
+            loading.classList.remove('hidden');
+            error.classList.add('hidden');
+            container.innerHTML = '';
+
+            try {
+                // If testimonials is empty, try to fetch data
+                if (!testimonials || testimonials.length === 0) {
+                    const data = await fetchData();
+                    testimonials = data.testimonials;
+                }
+
+                // Hide loading
+                loading.classList.add('hidden');
+
+                if (testimonials.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-8">
+                            <i class="fas fa-comment-slash text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-500">Belum ada testimoni yang tersedia.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Render testimonials
+                testimonials.forEach(testimonial => {
+                    const testimonialCard = document.createElement('div');
+                    testimonialCard.className = 'bg-white rounded-xl shadow-lg p-6 testimonial-card';
+                    testimonialCard.innerHTML = `
+                        <div class="flex items-center mb-4">
+                            <img src="${testimonial.avatar}" alt="${testimonial.name}" class="w-16 h-16 rounded-full object-cover mr-4">
+                            <div>
+                                <h4 class="font-bold text-emerald-900">${testimonial.name}</h4>
+                                <div class="flex text-yellow-400">
+                                    ${Array(5).fill().map((_, i) =>
+                        `<i class="fas fa-star ${i < testimonial.rating ? '' : 'text-gray-300'}"></i>`
+                    ).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 italic">"${testimonial.comment}"</p>
+                        <p class="text-sm text-gray-500 mt-4">${testimonial.date}</p>
+                    `;
+                    container.appendChild(testimonialCard);
+                });
+
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+                loading.classList.add('hidden');
+                error.classList.remove('hidden');
+            }
+        }
+
+        // Load contact info
+        async function loadContactInfo(contacts) {
+            const container = document.getElementById('contact-container');
+            const loading = document.getElementById('contact-loading');
+            const error = document.getElementById('contact-error');
+
+            // Show loading, hide error and container
+            loading.classList.remove('hidden');
+            error.classList.add('hidden');
+            container.innerHTML = '';
+
+            try {
+                // If contacts is empty, try to fetch data
+                if (!contacts || contacts.length === 0) {
+                    const data = await fetchData();
+                    contacts = data.contacts;
+                }
+
+                // Hide loading
+                loading.classList.add('hidden');
+
+                if (contacts.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-8">
+                            <i class="fas fa-address-book text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-gray-500">Informasi kontak tidak tersedia.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Render contact info
+                contacts.forEach(contact => {
+                    const contactInfo = document.createElement('div');
+                    contactInfo.className = 'space-y-4';
+
+                    // Generate WhatsApp link
+                    const whatsappLink = `https://wa.me/${contact.phone.replace(/\D/g, '')}`;
+
+                    contactInfo.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-user text-emerald-600 text-xl"></i>
+                            <span class="text-lg">${contact.name}</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-emerald-600 text-xl"></i>
+                            <a href="mailto:${contact.email}" class="text-lg hover:text-emerald-600 transition">${contact.email}</a>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-emerald-600 text-xl"></i>
+                            <a href="tel:${contact.phone}" class="text-lg hover:text-emerald-600 transition">${contact.phone}</a>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fab fa-whatsapp text-green-500 text-xl"></i>
+                            <a href="${whatsappLink}" target="_blank" class="text-lg hover:text-emerald-600 transition">Chat via WhatsApp</a>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-info-circle text-emerald-600 text-xl mt-1"></i>
+                            <span class="text-lg">${contact.notes}</span>
+                        </div>
+                    `;
+                    container.appendChild(contactInfo);
+                });
+
+                // Add contact form
+                const contactForm = document.createElement('div');
+                contactForm.innerHTML = `
+                    <form id="contact-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-gray-700 mb-2">Nama *</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <div class="form-error" id="name-error">Nama harus diisi</div>
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 mb-2">Email *</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <div class="form-error" id="email-error">Email harus valid</div>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-700 mb-2">Telepon</label>
+                            <input type="tel" id="phone" name="phone" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <div class="form-error" id="phone-error">Format telepon tidak valid</div>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-gray-700 mb-2">Pesan *</label>
+                            <textarea id="message" name="message" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                            <div class="form-error" id="message-error">Pesan harus diisi</div>
+                        </div>
+                        <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded-lg transition duration-300 w-full">
+                            Kirim Pesan
+                        </button>
+                    </form>
+                `;
+                container.appendChild(contactForm);
+
+                // Add form validation and submit handler
+                const form = document.getElementById('contact-form');
+                const nameInput = document.getElementById('name');
+                const emailInput = document.getElementById('email');
+                const phoneInput = document.getElementById('phone');
+                const messageInput = document.getElementById('message');
+
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    let isValid = true;
+
+                    // Validate name
+                    if (!nameInput.value.trim()) {
+                        document.getElementById('name-error').style.display = 'block';
+                        nameInput.classList.add('error');
+                        isValid = false;
+                    } else {
+                        document.getElementById('name-error').style.display = 'none';
+                        nameInput.classList.remove('error');
+                    }
+
+                    // Validate email
+                    if (!emailInput.value.trim() || !isValidEmail(emailInput.value)) {
+                        document.getElementById('email-error').style.display = 'block';
+                        emailInput.classList.add('error');
+                        isValid = false;
+                    } else {
+                        document.getElementById('email-error').style.display = 'none';
+                        emailInput.classList.remove('error');
+                    }
+
+                    // Validate phone (if provided)
+                    if (phoneInput.value.trim() && !isValidPhone(phoneInput.value)) {
+                        document.getElementById('phone-error').style.display = 'block';
+                        phoneInput.classList.add('error');
+                        isValid = false;
+                    } else {
+                        document.getElementById('phone-error').style.display = 'none';
+                        phoneInput.classList.remove('error');
+                    }
+
+                    // Validate message
+                    if (!messageInput.value.trim()) {
+                        document.getElementById('message-error').style.display = 'block';
+                        messageInput.classList.add('error');
+                        isValid = false;
+                    } else {
+                        document.getElementById('message-error').style.display = 'none';
+                        messageInput.classList.remove('error');
+                    }
+
+                    if (isValid) {
+                        // Simulate form submission
+                        showToast('Pesan Anda telah terkirim. Kami akan segera menghubungi Anda.');
+                        form.reset();
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error loading contact info:', error);
+                loading.classList.add('hidden');
+                error.classList.remove('hidden');
+            }
+        }
+
+        // Load social links
+        async function loadSocialLinks(socialLinks) {
+            const container = document.getElementById('social-links');
+
+            try {
+                // If socialLinks is empty, try to fetch data
+                if (!socialLinks || socialLinks.length === 0) {
+                    const data = await fetchData();
+                    socialLinks = data.socialLinks;
+                }
+
+                if (socialLinks.length === 0) {
+                    container.innerHTML = '<p class="text-sm">Ikuti kami di media sosial</p>';
+                    return;
+                }
+
+                // Render social links
+                socialLinks.forEach(link => {
+                    const socialLink = document.createElement('a');
+                    socialLink.href = link.url;
+                    socialLink.target = '_blank';
+                    socialLink.className = 'text-white hover:text-emerald-200 transition';
+                    socialLink.setAttribute('aria-label', link.platform);
+
+                    // Map platform names to Font Awesome icon classes
+                    let iconClass = '';
+                    switch (link.platform.toLowerCase()) {
+                        case 'facebook':
+                            iconClass = 'fa-facebook';
+                            break;
+                        case 'instagram':
+                            iconClass = 'fa-instagram';
+                            break;
+                        case 'tiktok':
+                            iconClass = 'fa-tiktok';
+                            break;
+                        case 'whatsapp':
+                            iconClass = 'fa-whatsapp';
+                            break;
+                        case 'youtube':
+                            iconClass = 'fa-youtube';
+                            break;
+                        case 'twitter':
+                            iconClass = 'fa-twitter';
+                            break;
+                        default:
+                            iconClass = `fa-${link.platform.toLowerCase()}`;
+                    }
+
+                    socialLink.innerHTML = `<i class="fab ${iconClass} text-2xl"></i>`;
+                    container.appendChild(socialLink);
+                });
+
+            } catch (error) {
+                console.error('Error loading social links:', error);
+                container.innerHTML = '<p class="text-sm">Ikuti kami di media sosial</p>';
+            }
+        }
+
+        // Show service detail modal
+        function showServiceDetail(service) {
+            const modal = document.getElementById('service-modal');
+            document.getElementById('modal-title').textContent = service.name;
+            document.getElementById('modal-image').src = service.image;
+            document.getElementById('modal-description').textContent = service.description;
+            document.getElementById('modal-price').textContent = formatCurrency(service.price);
+
+            // Set up contact button
+            document.getElementById('contact-us').onclick = function () {
+                modal.classList.add('hidden');
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            };
+
+            modal.classList.remove('hidden');
+        }
+
+        // Share to WhatsApp
+        function shareToWhatsApp(service) {
+            const text = `Halo, saya tertarik dengan layanan ${service.name} dari Albary Travel. Harganya ${formatCurrency(service.price)}. Berikut adalah gambarnya: ${service.image}`;
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Close modal
+        document.getElementById('close-modal').addEventListener('click', function () {
+            document.getElementById('service-modal').classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('service-modal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+
+        // Mobile menu functionality
+        document.getElementById('mobile-menu-button').addEventListener('click', function () {
+            document.getElementById('mobile-menu').classList.add('open');
+        });
+
+        document.getElementById('close-mobile-menu').addEventListener('click', function () {
+            document.getElementById('mobile-menu').classList.remove('open');
+        });
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', function () {
+                document.getElementById('mobile-menu').classList.remove('open');
+            });
+        });
+
+        // Retry buttons functionality
+        document.getElementById('retry-services')?.addEventListener('click', function () {
+            loadServices();
+        });
+
+        document.getElementById('retry-testimonials')?.addEventListener('click', function () {
+            loadTestimonials();
+        });
+
+        document.getElementById('retry-contact')?.addEventListener('click', function () {
+            loadContactInfo();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function () {
+            const data = await fetchData();
+            loadServices(data.services);
+            loadTestimonials(data.testimonials);
+            loadContactInfo(data.contacts);
+            loadSocialLinks(data.socialLinks);
+        });
+    </script>
+</body>
+
+</html>
