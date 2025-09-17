@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Albary Trevel — Dashboard</title>
+    <!-- Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Scrollbar halus untuk sidebar */
+        .thin-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        dialog[open] #modalContent {
+            animation: modalFadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        dialog::backdrop {
+            animation: backdropFadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes backdropFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .thin-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+
+        .thin-scroll {
+            scrollbar-width: thin;
+        }
+
+        dialog::backdrop {
+            background: rgba(15, 23, 42, .35);
+            backdrop-filter: blur(2px);
+        }
+
+        /* Custom animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Custom card hover effect */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        /* Tambahkan di bagian style yang sudah ada */
+        .char-counter {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-align: right;
+            margin-top: 0.25rem;
+        }
+
+        .char-counter.warning {
+            color: #f59e0b;
+        }
+
+        .char-counter.danger {
+            color: #ef4444;
+        }
+
+        /* Perbaiki padding form */
+        .form-field {
+            margin-bottom: 1rem;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Custom gradient background */
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        /* Image preview styling */
+        .image-preview {
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+
+        /* Online status indicator */
+        .online-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .online {
+            background-color: #10b981;
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+        }
+
+        .offline {
+            background-color: #ef4444;
+            box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Auth screen styling */
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .auth-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .app-container {
+            display: none;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .category-umroh {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .category-pelayanan {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .category-testimoni {
+            background-color: #f59e0b;
+            color: white;
+        }
+
+        /* Media type badges */
+        .media-type-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .media-photo {
+            background-color: #8b5cf6;
+            color: white;
+        }
+
+        .media-video {
+            background-color: #ec4899;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Auth Screen -->
+    <div id="authScreen" class="auth-container">
+        <div class="auth-card">
+            <div class="text-center mb-6">
+                <img src="https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/546180413_703830669384809_8963996312796683692_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeH7LHkP4SCNqclhwR98U72luZyyUMCXk7u5nLJQwJeTuxmaAWJO9jyFZ52qkdUkJqbw7n8PXQjXEI4rPa5pbNQS&_nc_ohc=Qd5KmjN1lbwQ7kNvwH4vKw4&_nc_oc=Adk_rdNL5-ZATKbSeA1UPQOKuf7Tv9uNkMJkXeeYe8TYOqsWrXYebMoqowsDdeCapco&_nc_zt=23&_nc_ht=scontent-fra5-1.xx&_nc_gid=tkJyriBjviRD1UaIZ6TvGw&oh=00_AfaKyH0-kxxEZqeK2bIVCNj0i8LtN6rZBaxtTfV4VbjwBA&oe=68CF2ADB"
+                    alt="Albary Trevel Logo" class="w-16 h-16 rounded-lg mx-auto mb-4 object-cover">
+                <h1 class="text-2xl font-bold text-gray-800">Albary Trevel</h1>
+                <p class="text-gray-600">Admin Dashboard</p>
+            </div>
+
+            <form id="authForm" class="space-y-4">
+                <div>
+                    <label for="authUsername" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                    <input type="text" id="authUsername"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="Username" required>
+                </div>
+
+                <div>
+                    <label for="authPassword" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="authPassword"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="Password" required>
+                </div>
+
+                <div>
+                    <label for="authToken" class="block text-sm font-medium text-gray-700 mb-1">GitHub Token</label>
+                    <input type="password" id="authToken"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="ghp_..." required>
+                </div>
+
+                <div>
+                    <label for="authOwner" class="block text-sm font-medium text-gray-700 mb-1">GitHub Owner</label>
+                    <input type="text" id="authOwner"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="username" required>
+                </div>
+
+                <div>
+                    <label for="authRepo" class="block text-sm font-medium text-gray-700 mb-1">GitHub Repository</label>
+                    <input type="text" id="authRepo"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="repository" required>
+                </div>
+
+                <div>
+                    <label for="authPath" class="block text-sm font-medium text-gray-700 mb-1">File Path</label>
+                    <input type="text" id="authPath"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        placeholder="data.json" value="data.json">
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit"
+                        class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition duration-200">Login</button>
+                </div>
+
+                <div id="authError" class="hidden text-red-600 text-sm text-center"></div>
+            </form>
+
+            <div class="mt-6 text-xs text-gray-500 text-center">
+                <p>Data akan disimpan di GitHub menggunakan API.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="appContainer" class="app-container">
+        <div class="min-h-screen flex">
+            <!-- Sidebar -->
+            <aside
+                class="w-72 bg-white border-r border-slate-200 p-4 space-y-4 sticky top-0 h-screen thin-scroll overflow-y-auto shadow-lg">
+                <div class="flex items-center gap-3 p-3 rounded-xl gradient-bg text-white">
+                    <!-- Logo Albary Trevel -->
+                    <div class="p-1 rounded-xl bg-white/20">
+                        <img src="https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/546180413_703830669384809_8963996312796683692_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeH7LHkP4SCNqclhwR98U72luZyyUMCXk7u5nLJQwJeTuxmaAWJO9jyFZ52qkdUkJqbw7n8PXQjXEI4rPa5pbNQS&_nc_ohc=Qd5KmjN1lbwQ7kNvwH4vKw4&_nc_oc=Adk_rdNL5-ZATKbSeA1UPQOKuf7Tv9uNkMJkXeeYe8TYOqsWrXYebMoqowsDdeCapco&_nc_zt=23&_nc_ht=scontent-fra5-1.xx&_nc_gid=tkJyriBjviRD1UaIZ6TvGw&oh=00_AfaKyH0-kxxEZqeK2bIVCNj0i8LtN6rZBaxtTfV4VbjwBA&oe=68CF2ADB"
+                            alt="Albary Trevel Logo" class="w-8 h-8 rounded-lg object-cover">
+                    </div>
+                    <!-- Nama aplikasi -->
+                    <div>
+                        <h1 class="text-lg font-bold">Albary Trevel</h1>
+                        <p class="text-xs text-white/80">Admin Dashboard</p>
+                    </div>
+                </div>
+
+                <!-- Nav -->
+                <nav class="pt-2">
+                    <ul class="space-y-1" id="nav">
+                        <li><button data-view="dashboard"
+                                class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 font-medium text-slate-700 transition-all duration-200"><i
+                                    data-lucide="gauge" class="w-4 h-4"></i> Dashboard</button></li>
+                        <li><button data-view="services"
+                                class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 font-medium text-slate-700 transition-all duration-200"><i
+                                    data-lucide="briefcase" class="w-4 h-4"></i> Layanan</button></li>
+                        <li><button data-view="contacts"
+                                class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 font-medium text-slate-700 transition-all duration-200"><i
+                                    data-lucide="users" class="w-4 h-4"></i> Kontak</button></li>
+                        <li><button data-view="social"
+                                class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 font-medium text-slate-700 transition-all duration-200"><i
+                                    data-lucide="share-2" class="w-4 h-4"></i> Sosial Media</button></li>
+                        <li><button data-view="settings"
+                                class="nav-btn w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 font-medium text-slate-700 transition-all duration-200"><i
+                                    data-lucide="settings" class="w-4 h-4"></i> Pengaturan</button></li>
+                        <li><button id="logoutBtn"
+                                class="w-full flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 font-medium text-slate-700 transition-all duration-200"><i
+                                    data-lucide="log-out" class="w-4 h-4"></i> Keluar</button></li>
+                    </ul>
+                </nav>
+
+                <div class="text-xs text-slate-500 border-t border-slate-200 pt-3 p-2 bg-slate-50 rounded-lg">
+                    <p>Data Albary Trevel disimpan sebagai JSON via GitHub API (Contents API).</p>
+                </div>
+            </aside>
+
+            <!-- Main -->
+            <main class="flex-1 p-6">
+                <!-- Header -->
+                <header class="flex items-center justify-between mb-8 fade-in">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900">Dashboard Albary Trevel</h2>
+                        <p class="text-slate-600 mt-1 flex items-center">
+                            <span id="connectionStatus" class="online-indicator offline"></span>
+                            Kelola layanan travel, kontak, & tautan sosial media.
+                        </p>
+                    </div>
+                </header>
+
+                <!-- Views container -->
+                <section id="view-dashboard" class="view mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-2xl shadow-md p-6 card-hover">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-semibold text-slate-700">Total Layanan</h3>
+                            <div class="p-2 rounded-lg bg-indigo-100 text-indigo-600">
+                                <i data-lucide="briefcase" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-4xl font-bold text-slate-900" id="stat-services">0</p>
+                        <div class="mt-2 h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-indigo-500 rounded-full" style="width: 70%"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-md p-6 card-hover">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-semibold text-slate-700">Total Kontak</h3>
+                            <div class="p-2 rounded-lg bg-green-100 text-green-600">
+                                <i data-lucide="users" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-4xl font-bold text-slate-900" id="stat-contacts">0</p>
+                        <div class="mt-2 h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-green-500 rounded-full" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-md p-6 card-hover">
+                        <div class="flex items-center justify-between">
+                            <h3 class="font-semibold text-slate-700">Total Sosial</h3>
+                            <div class="p-2 rounded-lg bg-purple-100 text-purple-600">
+                                <i data-lucide="share-2" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-4xl font-bold text-slate-900" id="stat-social">0</p>
+                        <div class="mt-2 h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-purple-500 rounded-full" style="width: 30%"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Services -->
+                <section id="view-services" class="view hidden mt-6 fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold text-slate-900">Layanan</h3>
+                        <button
+                            class="px-4 py-2 rounded-xl bg-indigo-600 text-white flex items-center gap-2 hover:bg-indigo-700 transition-all duration-200 shadow-md"
+                            id="addServiceBtn"><i data-lucide="plus" class="w-4 h-4"></i> Tambah</button>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-50 text-slate-600">
+                                <tr>
+                                    <th class="text-left p-3">Nama</th>
+                                    <th class="text-left p-3">Jenis</th>
+                                    <th class="text-left p-3">Kategori</th>
+                                    <th class="text-left p-3">Harga</th>
+                                    <th class="text-left p-3">Gambar</th>
+                                    <th class="text-left p-3">Aktif</th>
+                                    <th class="text-left p-3">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="servicesTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Contacts -->
+                <section id="view-contacts" class="view hidden mt-6 fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold text-slate-900">Kontak</h3>
+                        <button
+                            class="px-4 py-2 rounded-xl bg-indigo-600 text-white flex items-center gap-2 hover:bg-indigo-700 transition-all duration-200 shadow-md"
+                            id="addContactBtn"><i data-lucide="plus" class="w-4 h-4"></i> Tambah</button>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-50 text-slate-600">
+                                <tr>
+                                    <th class="text-left p-3">Nama</th>
+                                    <th class="text-left p-3">Email</th>
+                                    <th class="text-left p-3">Telepon</th>
+                                    <th class="text-left p-3">Catatan</th>
+                                    <th class="text-left p-3">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contactsTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Social -->
+                <section id="view-social" class="view hidden mt-6 fade-in">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-2xl font-bold text-slate-900">Sosial Media</h3>
+                        <button
+                            class="px-4 py-2 rounded-xl bg-indigo-600 text-white flex items-center gap-2 hover:bg-indigo-700 transition-all duration-200 shadow-md"
+                            id="addSocialBtn"><i data-lucide="plus" class="w-4 h-4"></i> Tambah</button>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+                        <table class="w-full text-sm">
+                            <thead class="bg-slate-50 text-slate-600">
+                                <tr>
+                                    <th class="text-left p-3">Platform</th>
+                                    <th class="text-left p-3">URL</th>
+                                    <th class="text-left p-3">Ikon</th>
+                                    <th class="text-left p-3">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="socialTable"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Settings -->
+                <section id="view-settings" class="view hidden mt-6 fade-in">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-6">Pengaturan GitHub - Albary Trevel</h3>
+                    <div class="bg-white rounded-2xl shadow-md p-6 space-y-4">
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <label class="block">
+                                <span class="text-sm text-slate-600 font-medium">Owner (username / org)</span>
+                                <input id="ghOwner"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    placeholder="username" />
+                            </label>
+                            <label class="block">
+                                <span class="text-sm text-slate-600 font-medium">Repo</span>
+                                <input id="ghRepo"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    placeholder="data-iklan" />
+                            </label>
+                            <label class="block">
+                                <span class="text-sm text-slate-600 font-medium">Path File JSON</span>
+                                <input id="ghPath"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    placeholder="data.json" />
+                            </label>
+                            <label class="block">
+                                <span class="text-sm text-slate-600 font-medium">GitHub Token (scope: repo)</span>
+                                <input id="ghToken" type="password"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    placeholder="ghp_..." />
+                            </label>
+                        </div>
+                        <div class="flex items-center gap-3 pt-2">
+                            <button id="btnSaveSettings"
+                                class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-200 shadow-md">Simpan
+                                Pengaturan</button>
+                            <span id="settingsStatus" class="text-sm text-slate-500"></span>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 mt-4">
+                            <p class="text-xs text-blue-700"><i data-lucide="info" class="w-4 h-4 inline mr-1"></i>
+                                Token hanya digunakan untuk sesi ini dan tidak disimpan di perangkat Anda.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Modals (dialog) -->
+                <dialog id="serviceModal" class="backdrop:bg-black/50 backdrop:backdrop-blur-sm">
+                    <div class="fixed inset-0 flex items-center justify-center p-4">
+                        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl transform transition-all duration-300 scale-95 opacity-0 max-h-[90vh] flex flex-col"
+                            id="modalContent">
+                            <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                                <h3 class="text-xl font-bold text-gray-900" id="serviceModalTitle">Tambah Layanan</h3>
+                                <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                                    onclick="document.getElementById('serviceModal').close()">
+                                    <i data-lucide="x" class="w-5 h-5 text-gray-500"></i>
+                                </button>
+                            </div>
+
+                            <div class="flex-1 overflow-y-auto">
+                                <form class="p-6 space-y-6">
+                                    <input type="hidden" id="serviceId" />
+
+                                    <!-- Baris 1: Nama dan Deskripsi Ringkas -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label for="serviceName"
+                                                class="block text-sm font-medium text-gray-700 mb-2">
+                                                Nama Layanan <span class="text-red-500">*</span>
+                                            </label>
+                                            <input type="text" id="serviceName" required
+                                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                                                placeholder="Masukkan nama layanan" />
+                                        </div>
+
+                                        <div>
+                                            <label for="serviceShortDesc"
+                                                class="block text-sm font-medium text-gray-700 mb-2">
+                                                Deskripsi Ringkas <span class="text-gray-500">(maks. 100
+                                                    karakter)</span>
+                                            </label>
+                                            <div class="relative">
+                                                <input type="text" id="serviceShortDesc" maxlength="100"
+                                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                                                    placeholder="Deskripsi singkat" />
+                                                <div class="absolute bottom-2 right-2">
+                                                    <span id="shortDescCounter"
+                                                        class="text-xs text-gray-500">0/100</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Baris 2: Jenis Media dan Kategori -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label for="serviceType"
+                                                class="block text-sm font-medium text-gray-700 mb-2">
+                                                Jenis Media
+                                            </label>
+                                            <select id="serviceType"
+                                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200">
+                                                <option value="">Pilih jenis media</option>
+                                                <option value="photo">Photo</option>
+                                                <option value="video">Video</option>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label for="serviceCategory"
+                                                class="block text-sm font-medium text-gray-700 mb-2">
+                                                Kategori
+                                            </label>
+                                            <select id="serviceCategory"
+                                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200">
+                                                <option value="">Pilih kategori</option>
+                                                <option value="Paket Umroh">Paket Umroh</option>
+                                                <option value="Pelayanan">Pelayanan</option>
+                                                <option value="Testimoni">Testimoni</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <!-- Baris 3: Harga -->
+                                    <div>
+                                        <label for="servicePrice" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Harga
+                                        </label>
+                                        <div class="relative">
+                                            <span class="absolute left-4 top-2.5 text-gray-500">Rp</span>
+                                            <input type="number" id="servicePrice" step="0.01"
+                                                class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                                                placeholder="0" />
+                                        </div>
+                                    </div>
+
+                                    <!-- Baris 4: Deskripsi Lengkap -->
+                                    <div>
+                                        <label for="serviceDesc" class="block text-sm font-medium text-gray-700 mb-2">
+                                            Deskripsi Lengkap
+                                        </label>
+                                        <textarea id="serviceDesc" rows="3"
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 resize-none"
+                                            placeholder="Masukkan deskripsi detail layanan"></textarea>
+                                    </div>
+
+                                    <!-- Baris 5: URL Media -->
+                                    <div>
+                                        <label for="serviceImage" class="block text-sm font-medium text-gray-700 mb-2">
+                                            URL Media
+                                        </label>
+                                        <input type="url" id="serviceImage"
+                                            class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                                            placeholder="https://example.com/image.jpg" />
+                                        <div id="imagePreviewContainer" class="hidden mt-4">
+                                            <p class="text-sm font-medium text-gray-700 mb-2">Preview</p>
+                                            <div class="relative rounded-lg overflow-hidden bg-gray-100 w-32 h-32">
+                                                <img id="imagePreview" class="w-full h-full object-cover"
+                                                    alt="Preview" />
+                                                <div
+                                                    class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-300">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Baris 6: Status Aktif -->
+                                    <div class="flex items-center">
+                                        <input type="checkbox" id="serviceActive"
+                                            class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" />
+                                        <label for="serviceActive" class="ml-2 text-sm font-medium text-gray-700">
+                                            Aktifkan layanan ini
+                                        </label>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div
+                                class="flex items-center justify-end gap-3 p-6 border-t border-gray-200 bg-gray-50 rounded-b-2xl">
+                                <button type="button" onclick="document.getElementById('serviceModal').close()"
+                                    class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
+                                    Batal
+                                </button>
+                                <button id="serviceSaveBtn" type="button"
+                                    class="px-5 py-2.5 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200">
+                                    <span id="saveButtonText">Simpan Layanan</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </dialog>
+
+                <dialog id="contactModal" class="rounded-2xl p-0 w-full max-w-xl shadow-2xl">
+                    <form method="dialog" class="bg-white rounded-2xl shadow">
+                        <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+                            <h4 class="font-semibold text-lg" id="contactModalTitle">Tambah Kontak</h4>
+                            <button class="p-1 rounded-lg hover:bg-slate-100 transition-colors" value="cancel"><i
+                                    data-lucide="x" class="w-5 h-5"></i></button>
+                        </div>
+                        <div class="p-5 grid gap-4">
+                            <input type="hidden" id="contactId" />
+                            <label class="block">
+                                <span class="text-sm font-medium text-slate-700">Nama</span>
+                                <input id="contactName"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    required />
+                            </label>
+                            <label class="block">
+                                <span class="text-sm font-medium text-slate-700">Email</span>
+                                <input id="contactEmail" type="email"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
+                            </label>
+                            <label class="block">
+                                <span class="text-sm font-medium text-slate-700">Telepon</span>
+                                <input id="contactPhone"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
+                            </label>
+                            <label class="block">
+                                <span class="text-sm font-medium text-slate-700">Catatan</span>
+                                <textarea id="contactNotes" rows="3"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+                            </label>
+                        </div>
+                        <div class="px-5 py-4 border-t border-slate-200 flex justify-end gap-2">
+                            <button class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 transition-colors"
+                                value="cancel">Batal</button>
+                            <button id="contactSaveBtn"
+                                class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                                value="default">Simpan</button>
+                        </div>
+                    </form>
+                </dialog>
+
+                <dialog id="socialModal" class="rounded-2xl p-0 w-full max-w-xl shadow-2xl">
+                    <form method="dialog" class="bg-white rounded-2xl shadow">
+                        <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+                            <h4 class="font-semibold text-lg" id="socialModalTitle">Tambah Sosial</h4>
+                            <button class="p-1 rounded-lg hover:bg-slate-100 transition-colors" value="cancel"><i
+                                    data-lucide="x" class="w-5 h-5"></i></button>
+                        </div>
+                        <div class="p-5 grid gap-4">
+                            <input type="hidden" id="socialId" />
+                            <label class="block">
+                                <span class="text-sm font-medium text-slate-700">Platform</span>
+                                <input id="socialPlatform"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    required />
+                            </label>
+                            <label class="block">
+                                <span class="text-sm font-medium text-slate-700">URL</span>
+                                <input id="socialUrl" type="url"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                                    required />
+                            </label>
+                            <label class="block">
+                                <span class="text-sm font-medium text-slate-700">Ikon (opsional, e.g. facebook,
+                                    instagram)</span>
+                                <input id="socialIcon"
+                                    class="mt-1 w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
+                            </label>
+                        </div>
+                        <div class="px-5 py-4 border-t border-slate-200 flex justify-end gap-2">
+                            <button class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 transition-colors"
+                                value="cancel">Batal</button>
+                            <button id="socialSaveBtn"
+                                class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                                value="default">Simpan</button>
+                        </div>
+                    </form>
+                </dialog>
+
+                <div id="toast"
+                    class="fixed bottom-4 right-4 px-4 py-3 rounded-xl bg-slate-900 text-white text-sm shadow-lg hidden flex items-center gap-2">
+                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                    <span id="toastMessage">Tersimpan.</span>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // ======== State ========
+        const state = {
+            data: {
+                services: [],
+                contacts: [],
+                socialLinks: []
+            },
+            github: {
+                owner: '',
+                repo: '',
+                path: 'data.json',
+                token: ''
+            },
+            ghSha: null, // sha file terbaru
+            isOnline: navigator.onLine,
+            auth: {
+                username: '',
+                password: '',
+                token: '',
+                owner: '',
+                repo: '',
+                path: 'data.json'
+            }
+        };
+
+        // ======== Helpers ========
+        const $ = (sel) => document.querySelector(sel);
+        const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+        function show(view) {
+            $$('.view').forEach(v => v.classList.add('hidden'));
+            $('#view-' + view).classList.remove('hidden');
+            const titleMap = {
+                dashboard: 'Dashboard',
+                services: 'Layanan',
+                contacts: 'Kontak',
+                social: 'Sosial Media',
+                settings: 'Pengaturan'
+            };
+            document.querySelector('header h2').textContent = titleMap[view] || 'Dashboard';
+            $$('#nav .nav-btn').forEach(b => b.classList.remove('bg-slate-900', 'text-white'));
+            document.querySelector(`#nav .nav-btn[data-view="${view}"]`).classList.add('bg-slate-900', 'text-white');
+            lucide.createIcons();
+        }
+
+        function toast(msg) {
+            const t = $('#toast');
+            $('#toastMessage').textContent = msg;
+            t.classList.remove('hidden');
+            setTimeout(() => t.classList.add('hidden'), 3000);
+        }
+
+        function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+        function updateStats() {
+            $('#stat-services').textContent = state.data.services.length;
+            $('#stat-contacts').textContent = state.data.contacts.length;
+            $('#stat-social').textContent = state.data.socialLinks.length;
+        }
+
+        function renderTables() {
+            // Services
+            const sBody = $('#servicesTable');
+            sBody.innerHTML = state.data.services.map(s => `
+        <tr class="border-t border-slate-100 hover:bg-slate-50 transition-colors">
+          <td class="p-3 font-medium">${escapeHtml(s.name)}</td>
+          <td class="p-3">
+            ${s.type ?
+                    `<span class="media-type-badge media-${s.type}">
+                <i data-lucide="${s.type === 'photo' ? 'image' : 'video'}" class="w-3 h-3 mr-1"></i>
+                ${s.type === 'photo' ? 'Photo' : 'Video'}
+              </span>` :
+                    '<span class="text-slate-400">-</span>'}
+          </td>
+          <td class="p-3">
+            ${s.category ?
+                    `<span class="category-badge category-${s.category.toLowerCase().replace(' ', '-')}">${escapeHtml(s.category)}</span>` :
+                    '<span class="text-slate-400">-</span>'}
+          </td>
+          <td class="p-3">${formatCurrency(s.price)}</td>
+          <td class="p-3">
+            ${s.image ? `<img src="${escapeAttr(s.image)}" class="w-16 h-16 object-cover rounded-lg" alt="${escapeHtml(s.name)}" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'">` : '<span class="text-slate-400">No media</span>'}
+          </td>
+          <td class="p-3">${s.active ? '<span class=\'px-2 py-1 rounded-lg bg-green-100 text-green-700 text-xs font-medium\'>Aktif</span>' : '<span class=\'px-2 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-medium\'>Nonaktif</span>'}</td>
+          <td class="p-3">
+            <button class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 mr-2 transition-colors" data-edit-service="${s.id}">Edit</button>
+            <button class="px-2 py-1 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors" data-del-service="${s.id}">Hapus</button>
+          </td>
+        </tr>
+      `).join('');
+
+            // Contacts
+            const cBody = $('#contactsTable');
+            cBody.innerHTML = state.data.contacts.map(c => `
+        <tr class="border-t border-slate-100 hover:bg-slate-50 transition-colors">
+          <td class="p-3 font-medium">${escapeHtml(c.name)}</td>
+          <td class="p-3">${escapeHtml(c.email || '')}</td>
+          <td class="p-3">${escapeHtml(c.phone || '')}</td>
+          <td class="p-3">${escapeHtml(c.notes || '')}</td>
+          <td class="p-3">
+            <button class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 mr-2 transition-colors" data-edit-contact="${c.id}">Edit</button>
+            <button class="px-2 py-1 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors" data-del-contact="${c.id}">Hapus</button>
+          </td>
+        </tr>
+      `).join('');
+
+            // Social
+            const soBody = $('#socialTable');
+            soBody.innerHTML = state.data.socialLinks.map(s => `
+        <tr class="border-t border-slate-100 hover:bg-slate-50 transition-colors">
+          <td class="p-3 font-medium">${escapeHtml(s.platform)}</td>
+          <td class="p-3"><a class="text-blue-600 hover:underline" href="${escapeAttr(s.url)}" target="_blank">${escapeHtml(s.url)}</a></td>
+          <td class="p-3">${escapeHtml(s.icon || '')}</td>
+          <td class="p-3">
+            <button class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 mr-2 transition-colors" data-edit-social="${s.id}">Edit</button>
+            <button class="px-2 py-1 rounded-lg bg-red-100 text-red-700 hover:bg-red-200 transition-colors" data-del-social="${s.id}">Hapus</button>
+          </td>
+        </tr>
+      `).join('');
+
+            updateStats();
+            attachRowHandlers();
+            lucide.createIcons(); // Reinitialize icons after rendering
+        }
+
+        function formatCurrency(v) {
+            if (v === undefined || v === null || v === '') return '-';
+            const num = Number(v);
+            if (Number.isNaN(num)) return String(v);
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
+        }
+
+        function escapeHtml(str) { return String(str).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' }[m])); }
+        function escapeAttr(str) { return String(str).replace(/"/g, '&quot;'); }
+
+        // ======== GitHub API (Contents API) ========
+        const ghBase = 'https://api.github.com';
+
+        async function ghHeaders() {
+            const h = { 'Accept': 'application/vnd.github+json' };
+            if (state.github.token) h['Authorization'] = `Bearer ${state.github.token}`;
+            return h;
+        }
+
+        async function loadFromGitHub() {
+            const { owner, repo, path } = state.github;
+            if (!owner || !repo || !path) throw new Error('Pengaturan GitHub belum lengkap.');
+
+            try {
+                const res = await fetch(`${ghBase}/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`, {
+                    headers: await ghHeaders()
+                });
+
+                if (!res.ok) {
+                    throw new Error('Gagal memuat data dari GitHub: ' + res.status + ' ' + res.statusText);
+                }
+
+                const json = await res.json();
+
+                // Decode base64 dengan benar untuk Unicode
+                const binaryString = atob(json.content);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                const decodedContent = new TextDecoder().decode(bytes);
+
+                const data = JSON.parse(decodedContent);
+                state.data = data;
+                state.ghSha = json.sha;
+
+                renderTables();
+                return true;
+            } catch (error) {
+                console.error('Error loading from GitHub:', error);
+                throw error;
+            }
+        }
+
+        async function saveToGitHub() {
+            const { owner, repo, path } = state.github;
+            if (!owner || !repo || !path) throw new Error('Pengaturan GitHub belum lengkap.');
+
+            try {
+                const body = {
+                    message: `chore: update data ${new Date().toISOString()}`,
+                    content: btoa(unescape(encodeURIComponent(JSON.stringify(state.data, null, 2))))
+                };
+                if (state.ghSha) body.sha = state.ghSha; // update file
+
+                const res = await fetch(`${ghBase}/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`, {
+                    method: 'PUT',
+                    headers: { ...(await ghHeaders()), 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+
+                if (!res.ok) {
+                    throw new Error('Gagal menyimpan ke GitHub: ' + res.status + ' ' + res.statusText);
+                }
+
+                const json = await res.json();
+                state.ghSha = json.content && json.content.sha || state.ghSha;
+                return true;
+            } catch (error) {
+                console.error('Error saving to GitHub:', error);
+                throw error;
+            }
+        }
+
+        // ======== Connection Status ========
+        function updateOnlineStatus() {
+            state.isOnline = navigator.onLine;
+            const statusIndicator = $('#connectionStatus');
+
+            if (state.isOnline) {
+                statusIndicator.classList.remove('offline');
+                statusIndicator.classList.add('online');
+            } else {
+                statusIndicator.classList.remove('online');
+                statusIndicator.classList.add('offline');
+            }
+        }
+
+        // ======== Auth Management ========
+        function checkAuth() {
+            const authData = localStorage.getItem('albaryAuth');
+            if (!authData) {
+                showAuthScreen();
+                return false;
+            }
+
+            try {
+                const auth = JSON.parse(authData);
+                state.auth = auth;
+                state.github.token = auth.token;
+                state.github.owner = auth.owner;
+                state.github.repo = auth.repo;
+                state.github.path = auth.path || 'data.json';
+
+                // Update form fields
+                $('#ghOwner').value = state.github.owner;
+                $('#ghRepo').value = state.github.repo;
+                $('#ghPath').value = state.github.path;
+                $('#ghToken').value = state.github.token;
+
+                showAppScreen();
+                return true;
+            } catch (error) {
+                console.error('Error parsing auth data:', error);
+                showAuthScreen();
+                return false;
+            }
+        }
+
+        function showAuthScreen() {
+            $('#authScreen').style.display = 'flex';
+            $('#appContainer').style.display = 'none';
+
+            // Clear previous error messages
+            $('#authError').classList.add('hidden');
+
+            // Load saved credentials if available
+            const savedUsername = localStorage.getItem('albaryUsername');
+            const savedOwner = localStorage.getItem('albaryOwner');
+            const savedRepo = localStorage.getItem('albaryRepo');
+
+            if (savedUsername) $('#authUsername').value = savedUsername;
+            if (savedOwner) $('#authOwner').value = savedOwner;
+            if (savedRepo) $('#authRepo').value = savedRepo;
+
+            // Check if we have previous auth data
+            const authData = localStorage.getItem('albaryAuth');
+            if (authData) {
+                try {
+                    const auth = JSON.parse(authData);
+                    // If we have auth data, hide GitHub token field and show a note
+                    $('#authToken').parentElement.style.display = 'none';
+                    $('#authOwner').parentElement.style.display = 'none';
+                    $('#authRepo').parentElement.style.display = 'none';
+                    $('#authPath').parentElement.style.display = 'none';
+
+                    // Add a note that only username and password are needed
+                    let note = document.getElementById('authNote');
+                    if (!note) {
+                        note = document.createElement('div');
+                        note.id = 'authNote';
+                        note.className = 'text-sm text-gray-600 mt-2';
+                        $('#authForm').appendChild(note);
+                    }
+                    note.textContent = 'Hanya masukkan username dan password untuk login.';
+
+                    // Add a button to change credentials
+                    let changeCredBtn = document.getElementById('changeCredBtn');
+                    if (!changeCredBtn) {
+                        changeCredBtn = document.createElement('button');
+                        changeCredBtn.id = 'changeCredBtn';
+                        changeCredBtn.type = 'button';
+                        changeCredBtn.className = 'text-sm text-indigo-600 hover:text-indigo-800 mt-2 w-full text-left';
+                        changeCredBtn.innerHTML = '<i data-lucide="edit" class="w-4 h-4 inline mr-1"></i> Ubah Username/Password';
+                        changeCredBtn.addEventListener('click', () => {
+                            // Show all fields
+                            $('#authToken').parentElement.style.display = 'block';
+                            $('#authOwner').parentElement.style.display = 'block';
+                            $('#authRepo').parentElement.style.display = 'block';
+                            $('#authPath').parentElement.style.display = 'block';
+
+                            // Update note
+                            note.textContent = 'Masukkan username, password, dan token GitHub untuk mengubah kredensial.';
+
+                            // Remove the change button
+                            changeCredBtn.style.display = 'none';
+
+                            // Reinitialize icons
+                            lucide.createIcons();
+                        });
+                        $('#authForm').appendChild(changeCredBtn);
+                    }
+                } catch (error) {
+                    console.error('Error parsing auth data:', error);
+                }
+            } else {
+                // If no auth data, show all fields
+                $('#authToken').parentElement.style.display = 'block';
+                $('#authOwner').parentElement.style.display = 'block';
+                $('#authRepo').parentElement.style.display = 'block';
+                $('#authPath').parentElement.style.display = 'block';
+
+                // Remove note and change button if they exist
+                const note = document.getElementById('authNote');
+                if (note) note.remove();
+                const changeCredBtn = document.getElementById('changeCredBtn');
+                if (changeCredBtn) changeCredBtn.remove();
+            }
+        }
+
+        function showAppScreen() {
+            $('#authScreen').style.display = 'none';
+            $('#appContainer').style.display = 'block';
+
+            // Initialize app
+            updateOnlineStatus();
+            initDemoData();
+            renderTables();
+            show('dashboard');
+
+            // Load data from GitHub
+            if (state.isOnline) {
+                loadFromGitHub().catch(error => {
+                    console.error('Failed to load data from GitHub:', error);
+                    toast('Gagal memuat data dari GitHub');
+                    // If failed to load, go back to auth screen
+                    setTimeout(() => {
+                        showAuthScreen();
+                    }, 2000);
+                });
+            }
+        }
+
+        function login(username, password, token, owner, repo, path) {
+            // Check if we have existing auth data
+            const existingAuth = localStorage.getItem('albaryAuth');
+
+            if (existingAuth && !token) {
+                // If no token provided but we have existing auth, verify username and password
+                try {
+                    const auth = JSON.parse(existingAuth);
+                    if (auth.username === username && auth.password === password) {
+                        // Use existing token and other data
+                        token = auth.token;
+                        owner = auth.owner;
+                        repo = auth.repo;
+                        path = auth.path || 'data.json';
+                    } else {
+                        // Username or password doesn't match
+                        $('#authError').textContent = 'Username atau password salah';
+                        $('#authError').classList.remove('hidden');
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Error parsing existing auth data:', error);
+                    // If error, we need token
+                    $('#authError').textContent = 'Token diperlukan untuk login';
+                    $('#authError').classList.remove('hidden');
+                    return;
+                }
+            } else if (!token || !owner || !repo) {
+                // If no existing auth and missing required fields
+                $('#authError').textContent = 'Token, owner, dan repo diperlukan untuk login pertama kali';
+                $('#authError').classList.remove('hidden');
+                return;
+            }
+
+            // Save auth data
+            const auth = {
+                username,
+                password,
+                token,
+                owner,
+                repo,
+                path: path || 'data.json'
+            };
+
+            localStorage.setItem('albaryAuth', JSON.stringify(auth));
+            localStorage.setItem('albaryUsername', username);
+            localStorage.setItem('albaryOwner', owner);
+            localStorage.setItem('albaryRepo', repo);
+
+            state.auth = auth;
+            state.github.token = token;
+            state.github.owner = owner;
+            state.github.repo = repo;
+            state.github.path = path || 'data.json';
+
+            // Update form fields
+            $('#ghOwner').value = state.github.owner;
+            $('#ghRepo').value = state.github.repo;
+            $('#ghPath').value = state.github.path;
+            $('#ghToken').value = state.github.token;
+
+            showAppScreen();
+            toast('Login berhasil');
+        }
+
+        function logout() {
+            localStorage.removeItem('albaryAuth');
+            showAuthScreen();
+            toast('Anda telah keluar');
+        }
+
+        // ======== Settings Management ========
+        function saveSettingsToStorage() {
+            localStorage.setItem('ghOwner', state.github.owner);
+            localStorage.setItem('ghRepo', state.github.repo);
+            localStorage.setItem('ghPath', state.github.path);
+            localStorage.setItem('ghToken', state.github.token);
+
+            // Update auth data
+            const auth = {
+                ...state.auth,
+                token: state.github.token,
+                owner: state.github.owner,
+                repo: state.github.repo,
+                path: state.github.path
+            };
+            localStorage.setItem('albaryAuth', JSON.stringify(auth));
+        }
+
+        // ======== Event Wiring ========
+        // Auth form
+        $('#authForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const username = $('#authUsername').value.trim();
+            const password = $('#authPassword').value.trim();
+            const token = $('#authToken').value.trim();
+            const owner = $('#authOwner').value.trim();
+            const repo = $('#authRepo').value.trim();
+            const path = $('#authPath').value.trim();
+
+            if (!username || !password) {
+                $('#authError').textContent = 'Username dan password harus diisi';
+                $('#authError').classList.remove('hidden');
+                return;
+            }
+
+            // Check if we have existing auth data
+            const existingAuth = localStorage.getItem('albaryAuth');
+
+            if (existingAuth) {
+                // If existing auth, check if we're trying to change credentials (token is provided)
+                if (token) {
+                    // Changing credentials, so we need all fields
+                    if (!owner || !repo) {
+                        $('#authError').textContent = 'Owner dan repo harus diisi untuk mengubah kredensial';
+                        $('#authError').classList.remove('hidden');
+                        return;
+                    }
+                    login(username, password, token, owner, repo, path);
+                } else {
+                    // Not changing credentials, only username and password are required
+                    login(username, password, '', '', '', '');
+                }
+            } else {
+                // First time login, all fields are required
+                if (!token || !owner || !repo) {
+                    $('#authError').textContent = 'Semua field harus diisi untuk login pertama kali';
+                    $('#authError').classList.remove('hidden');
+                    return;
+                }
+                login(username, password, token, owner, repo, path);
+            }
+        });
+
+        const resetAuthDiv = document.createElement('div');
+        resetAuthDiv.className = 'mt-4 pt-4 border-t border-gray-200';
+
+        const resetAuthBtn = document.createElement('button');
+        resetAuthBtn.type = 'button';
+        resetAuthBtn.className = 'text-sm text-red-600 hover:text-red-800 flex items-center';
+        resetAuthBtn.innerHTML = '<i data-lucide="trash-2" class="w-4 h-4 mr-1"></i> Reset Autentikasi';
+        resetAuthBtn.addEventListener('click', () => {
+            if (confirm('Apakah Anda yakin ingin mereset autentikasi? Anda akan memerlukan token GitHub untuk login kembali.')) {
+                localStorage.removeItem('albaryAuth');
+                localStorage.removeItem('albaryUsername');
+                localStorage.removeItem('albaryOwner');
+                localStorage.removeItem('albaryRepo');
+                location.reload();
+            }
+        });
+
+        resetAuthDiv.appendChild(resetAuthBtn);
+        $('#authForm').appendChild(resetAuthDiv);
+
+        // Logout button
+        $('#logoutBtn').addEventListener('click', logout);
+
+        // Navigation
+        $$('#nav .nav-btn').forEach(btn => btn.addEventListener('click', () => show(btn.dataset.view)));
+
+        // Settings bind
+        $('#btnSaveSettings').addEventListener('click', () => {
+            state.github.owner = $('#ghOwner').value.trim();
+            state.github.repo = $('#ghRepo').value.trim();
+            state.github.path = $('#ghPath').value.trim() || 'data.json';
+            state.github.token = $('#ghToken').value.trim();
+
+            saveSettingsToStorage();
+
+            $('#settingsStatus').textContent = 'Tersimpan di browser.';
+            toast('Pengaturan tersimpan di browser');
+        });
+
+        // Add buttons
+        $('#addServiceBtn')?.addEventListener('click', () => openServiceModal());
+        $('#addContactBtn')?.addEventListener('click', () => openContactModal());
+        $('#addSocialBtn')?.addEventListener('click', () => openSocialModal());
+
+        // Image preview for service
+        $('#serviceImage')?.addEventListener('input', function () {
+            const url = this.value.trim();
+            const previewContainer = $('#imagePreviewContainer');
+            const preview = $('#imagePreview');
+
+            if (url) {
+                preview.src = url;
+                previewContainer.classList.remove('hidden');
+
+                // Handle image load error
+                preview.onerror = function () {
+                    previewContainer.classList.add('hidden');
+                };
+            } else {
+                previewContainer.classList.add('hidden');
+            }
+        });
+
+        function attachRowHandlers() {
+            // Edit/Delete services
+            $$('#servicesTable [data-edit-service]').forEach(b => b.addEventListener('click', () => openServiceModal(b.dataset.editService)));
+            $$('#servicesTable [data-del-service]').forEach(b => b.addEventListener('click', () => deleteService(b.dataset.delService)));
+
+            // Contacts
+            $$('#contactsTable [data-edit-contact]').forEach(b => b.addEventListener('click', () => openContactModal(b.dataset.editContact)));
+            $$('#contactsTable [data-del-contact]').forEach(b => b.addEventListener('click', () => deleteContact(b.dataset.delContact)));
+
+            // Social
+            $$('#socialTable [data-edit-social]').forEach(b => b.addEventListener('click', () => openSocialModal(b.dataset.editSocial)));
+            $$('#socialTable [data-del-social]').forEach(b => b.addEventListener('click', () => deleteSocial(b.dataset.delSocial)));
+        }
+
+        // ======== Services CRUD ========
+        const serviceModal = $('#serviceModal');
+        $('#serviceSaveBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const id = $('#serviceId').value;
+            const payload = {
+                id: id || uid(),
+                name: $('#serviceName').value.trim(),
+                shortDescription: $('#serviceShortDesc').value.trim(),
+                description: $('#serviceDesc').value.trim(),
+                type: $('#serviceType').value,
+                category: $('#serviceCategory').value,
+                price: Number($('#servicePrice').value || 0),
+                image: $('#serviceImage').value.trim(),
+                active: $('#serviceActive').checked
+            };
+            if (!payload.name) return alert('Nama wajib diisi');
+            const idx = state.data.services.findIndex(x => x.id === payload.id);
+            if (idx >= 0) state.data.services[idx] = payload; else state.data.services.push(payload);
+
+            serviceModal.close();
+            renderTables();
+
+            // Auto-save to GitHub
+            if (state.isOnline) {
+                try {
+                    await saveToGitHub();
+                    toast('Layanan berhasil disimpan ke GitHub');
+                } catch (error) {
+                    toast('Gagal menyimpan ke GitHub: ' + error.message);
+                }
+            } else {
+                toast('Layanan berhasil disimpan (offline mode)');
+            }
+        });
+
+        function openServiceModal(id) {
+            $('#serviceModalTitle').textContent = id ? 'Edit Layanan' : 'Tambah Layanan';
+            if (id) {
+                const s = state.data.services.find(x => x.id === id);
+                $('#serviceId').value = s.id;
+                $('#serviceName').value = s.name || '';
+                $('#serviceShortDesc').value = s.shortDescription || '';
+                $('#serviceDesc').value = s.description || '';
+                $('#serviceType').value = s.type || '';
+                $('#serviceCategory').value = s.category || '';
+                $('#servicePrice').value = s.price ?? '';
+                $('#serviceImage').value = s.image || '';
+                $('#serviceActive').checked = !!s.active;
+
+                // Show image preview if exists
+                if (s.image) {
+                    $('#imagePreview').src = s.image;
+                    $('#imagePreviewContainer').classList.remove('hidden');
+                } else {
+                    $('#imagePreviewContainer').classList.add('hidden');
+                }
+            } else {
+                $('#serviceId').value = '';
+                $('#serviceName').value = '';
+                $('#serviceShortDesc').value = '';
+                $('#serviceDesc').value = '';
+                $('#serviceType').value = '';
+                $('#serviceCategory').value = '';
+                $('#servicePrice').value = '';
+                $('#serviceImage').value = '';
+                $('#serviceActive').checked = true;
+                $('#imagePreviewContainer').classList.add('hidden');
+            }
+            serviceModal.showModal();
+        }
+
+        function deleteService(id) {
+            if (!confirm('Hapus layanan ini?')) return;
+            state.data.services = state.data.services.filter(x => x.id !== id);
+            renderTables();
+
+            // Auto-save to GitHub
+            if (state.isOnline) {
+                saveToGitHub()
+                    .then(() => toast('Layanan berhasil dihapus dari GitHub'))
+                    .catch(error => toast('Gagal menyimpan ke GitHub: ' + error.message));
+            } else {
+                toast('Layanan berhasil dihapus (offline mode)');
+            }
+        }
+
+        // ======== Contacts CRUD ========
+        const contactModal = $('#contactModal');
+        $('#contactSaveBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const id = $('#contactId').value;
+            const payload = {
+                id: id || uid(),
+                name: $('#contactName').value.trim(),
+                email: $('#contactEmail').value.trim(),
+                phone: $('#contactPhone').value.trim(),
+                notes: $('#contactNotes').value.trim()
+            };
+            if (!payload.name) return alert('Nama wajib diisi');
+            const idx = state.data.contacts.findIndex(x => x.id === payload.id);
+            if (idx >= 0) state.data.contacts[idx] = payload; else state.data.contacts.push(payload);
+
+            contactModal.close();
+            renderTables();
+
+            // Auto-save to GitHub
+            if (state.isOnline) {
+                try {
+                    await saveToGitHub();
+                    toast('Kontak berhasil disimpan ke GitHub');
+                } catch (error) {
+                    toast('Gagal menyimpan ke GitHub: ' + error.message);
+                }
+            } else {
+                toast('Kontak berhasil disimpan (offline mode)');
+            }
+        });
+
+        function openContactModal(id) {
+            $('#contactModalTitle').textContent = id ? 'Edit Kontak' : 'Tambah Kontak';
+            if (id) {
+                const c = state.data.contacts.find(x => x.id === id);
+                $('#contactId').value = c.id;
+                $('#contactName').value = c.name || '';
+                $('#contactEmail').value = c.email || '';
+                $('#contactPhone').value = c.phone || '';
+                $('#contactNotes').value = c.notes || '';
+            } else {
+                $('#contactId').value = '';
+                $('#contactName').value = '';
+                $('#contactEmail').value = '';
+                $('#contactPhone').value = '';
+                $('#contactNotes').value = '';
+            }
+            contactModal.showModal();
+        }
+
+        function deleteContact(id) {
+            if (!confirm('Hapus kontak ini?')) return;
+            state.data.contacts = state.data.contacts.filter(x => x.id !== id);
+            renderTables();
+
+            // Auto-save to GitHub
+            if (state.isOnline) {
+                saveToGitHub()
+                    .then(() => toast('Kontak berhasil dihapus dari GitHub'))
+                    .catch(error => toast('Gagal menyimpan ke GitHub: ' + error.message));
+            } else {
+                toast('Kontak berhasil dihapus (offline mode)');
+            }
+        }
+
+        // ======== Social CRUD ========
+        const socialModal = $('#socialModal');
+        $('#socialSaveBtn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const id = $('#socialId').value;
+            const payload = {
+                id: id || uid(),
+                platform: $('#socialPlatform').value.trim(),
+                url: $('#socialUrl').value.trim(),
+                icon: $('#socialIcon').value.trim()
+            };
+            if (!payload.platform || !payload.url) return alert('Platform & URL wajib diisi');
+            const idx = state.data.socialLinks.findIndex(x => x.id === payload.id);
+            if (idx >= 0) state.data.socialLinks[idx] = payload; else state.data.socialLinks.push(payload);
+
+            socialModal.close();
+            renderTables();
+
+            // Auto-save to GitHub
+            if (state.isOnline) {
+                try {
+                    await saveToGitHub();
+                    toast('Sosial media berhasil disimpan ke GitHub');
+                } catch (error) {
+                    toast('Gagal menyimpan ke GitHub: ' + error.message);
+                }
+            } else {
+                toast('Sosial media berhasil disimpan (offline mode)');
+            }
+        });
+
+        function openSocialModal(id) {
+            $('#socialModalTitle').textContent = id ? 'Edit Sosial' : 'Tambah Sosial';
+            if (id) {
+                const s = state.data.socialLinks.find(x => x.id === id);
+                $('#socialId').value = s.id;
+                $('#socialPlatform').value = s.platform || '';
+                $('#socialUrl').value = s.url || '';
+                $('#socialIcon').value = s.icon || '';
+            } else {
+                $('#socialId').value = '';
+                $('#socialPlatform').value = '';
+                $('#socialUrl').value = '';
+                $('#socialIcon').value = '';
+            }
+            socialModal.showModal();
+        }
+
+        function deleteSocial(id) {
+            if (!confirm('Hapus tautan sosial ini?')) return;
+            state.data.socialLinks = state.data.socialLinks.filter(x => x.id !== id);
+            renderTables();
+
+            // Auto-save to GitHub
+            if (state.isOnline) {
+                saveToGitHub()
+                    .then(() => toast('Sosial media berhasil dihapus dari GitHub'))
+                    .catch(error => toast('Gagal menyimpan ke GitHub: ' + error.message));
+            } else {
+                toast('Sosial media berhasil dihapus (offline mode)');
+            }
+        }
+
+        // ======== Init ========
+        function initDemoData() {
+            // contoh awal (opsional, hanya jika kosong)
+            if (state.data.services.length === 0 && state.data.contacts.length === 0 && state.data.socialLinks.length === 0) {
+                state.data.services = [
+                    {
+                        id: uid(),
+                        name: 'Paket Wisata Bali',
+                        shortDescription: 'Liburan eksotis di pulau dewata',
+                        description: '3 hari 2 malam, hotel bintang 4, tiket pesawat PP',
+                        type: 'photo',
+                        category: 'Pelayanan',
+                        price: 3500000,
+                        image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                        active: true
+                    },
+                    {
+                        id: uid(),
+                        name: 'Paket Umroh Plus Dubai',
+                        shortDescription: 'Ibadah umroh dengan wisata ke Dubai',
+                        description: '9 hari program, hotel dekat Masjidil Haram, city tour Dubai',
+                        type: 'video',
+                        category: 'Paket Umroh',
+                        price: 25000000,
+                        image: 'https://images.unsplash.com/photo-1589476993835-6521b0455c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                        active: true
+                    },
+                    {
+                        id: uid(),
+                        name: 'Testimoni Budi Santoso',
+                        shortDescription: 'Pengalaman umroh yang menyenangkan',
+                        description: 'Pelayanan sangat memuaskan, tour guide ramah dan profesional',
+                        type: 'photo',
+                        category: 'Testimoni',
+                        price: 0,
+                        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                        active: true
+                    },
+                    {
+                        id: uid(),
+                        name: 'Paket Liburan Lombok',
+                        shortDescription: 'Nikmati keindahan pantai Lombok',
+                        description: '4 hari 3 malam, private villa, snorkeling trip',
+                        type: 'photo',
+                        category: 'Pelayanan',
+                        price: 4500000,
+                        image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80',
+                        active: true
+                    }
+                ];
+                state.data.contacts = [
+                    { id: uid(), name: 'Budi Santoso', email: 'budi@albarytrevel.com', phone: '0812-3456-7890', notes: 'Pelanggan VIP' }
+                ];
+                state.data.socialLinks = [
+                    { id: uid(), platform: 'Instagram', url: 'https://instagram.com/albarytrevel', icon: 'instagram' },
+                    { id: uid(), platform: 'Facebook', url: 'https://facebook.com/albarytrevel', icon: 'facebook' }
+                ];
+            }
+        }
+
+        // Initialize app
+        window.addEventListener('online', updateOnlineStatus);
+        window.addEventListener('offline', updateOnlineStatus);
+
+        // Check auth on load
+        checkAuth();
+    </script>
+</body>
+
+</html>
