@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Albary Travel - Layanan Travel Terpercaya</title>
+    <title>Albary Haramain Travel - Layanan Travel Terpercaya</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
@@ -17,6 +17,11 @@
                 radial-gradient(circle at 90% 80%, rgba(255, 119, 198, 0.1) 0%, transparent 20%),
                 radial-gradient(circle at 50% 50%, rgba(120, 219, 255, 0.1) 0%, transparent 30%);
             position: relative;
+        }
+
+        a {
+            position: relative;
+            z-index: 50;
         }
 
         .islamic-pattern::before {
@@ -211,8 +216,8 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
                     <img src="https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/546180413_703830669384809_8963996312796683692_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeH7LHkP4SCNqclhwR98U72luZyyUMCXk7u5nLJQwJeTuxmaAWJO9jyFZ52qkdUkJqbw7n8PXQjXEI4rPa5pbNQS&_nc_ohc=Qd5KmjN1lbwQ7kNvwH4vKw4&_nc_oc=Adk_rdNL5-ZATKbSeA1UPQOKuf7Tv9uNkMJkXeeYe8TYOqsWrXYebMoqowsDdeCapco&_nc_zt=23&_nc_ht=scontent-fra5-1.xx&_nc_gid=tkJyriBjviRD1UaIZ6TvGw&oh=00_AfaKyH0-kxxEZqeK2bIVCNj0i8LtN6rZBaxtTfV4VbjwBA&oe=68CF2ADB"
-                        alt="Albary Travel Logo" class="h-16 rounded-lg">
-                    <h1 class="text-2xl md:text-3xl font-bold">Albary Travel</h1>
+                        alt="Albary haramain Travel Logo" class="h-16 rounded-lg">
+                    <h1 class="text-2xl md:text-3xl font-bold">Albary Haramain Travel</h1>
                 </div>
 
                 <!-- Desktop Navigation -->
@@ -237,7 +242,7 @@
             class="mobile-menu fixed inset-y-0 left-0 w-64 bg-emerald-800 p-6 shadow-lg z-50 md:hidden">
             <div class="flex justify-between items-center mb-8">
                 <img src="https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-6/546180413_703830669384809_8963996312796683692_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=100&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeH7LHkP4SCNqclhwR98U72luZyyUMCXk7u5nLJQwJeTuxmaAWJO9jyFZ52qkdUkJqbw7n8PXQjXEI4rPa5pbNQS&_nc_ohc=Qd5KmjN1lbwQ7kNvwH4vKw4&_nc_oc=Adk_rdNL5-ZATKbSeA1UPQOKuf7Tv9uNkMJkXeeYe8TYOqsWrXYebMoqowsDdeCapco&_nc_zt=23&_nc_ht=scontent-fra5-1.xx&_nc_gid=tkJyriBjviRD1UaIZ6TvGw&oh=00_AfaKyH0-kxxEZqeK2bIVCNj0i8LtN6rZBaxtTfV4VbjwBA&oe=68CF2ADB"
-                    alt="Albary Travel Logo" class="h-12 rounded-lg">
+                    alt="Albary Haramain Travel Logo" class="h-12 rounded-lg">
                 <button id="close-mobile-menu" class="text-white text-2xl">
                     <i class="fas fa-times"></i>
                 </button>
@@ -264,7 +269,11 @@
             </div>
         </div>
         <div class="container mx-auto px-4 text-center relative z-10">
-            <h2 class="text-4xl md:text-5xl font-bold text-emerald-900 mb-6 fade-in">Selamat Datang di Albary Travel
+            <h2 class="text-4xl md:text-5xl font-bold text-emerald-900 mb-6 fade-in">اَلسَّلَامُ عَلَيْكُمْ أَهْلًا
+                وَسَهْلًا
+            </h2>
+            <h2 class="text-4xl md:text-5xl font-bold text-emerald-900 mb-6 fade-in">Albary Haramain
+                Travel
             </h2>
             <p class="text-xl text-emerald-700 max-w-2xl mx-auto mb-10 fade-in">Layanan travel terpercaya untuk
                 perjalanan spiritual Anda dengan pengalaman yang tak terlupakan</p>
@@ -280,14 +289,25 @@
     <section id="services" class="py-16 bg-white bg-opacity-80 content-wrapper">
         <div class="container mx-auto px-4">
             <h2 class="text-3xl font-bold text-center text-emerald-900 mb-4">Layanan Kami</h2>
-            <p class="text-center text-emerald-700 max-w-2xl mx-auto mb-12">Kami menyediakan berbagai layanan untuk
-                memenuhi kebutuhan perjalanan spiritual Anda</p>
+            <p class="text-center text-emerald-700 max-w-2xl mx-auto mb-12">
+                Kami menyediakan berbagai layanan untuk memenuhi kebutuhan perjalanan spiritual Anda
+            </p>
 
             <!-- Loading Spinner -->
-            <div id="services-loading" class="spinner mb-8"></div>
+            <div id="services-loading" class="spinner mb-5"></div>
 
-            <div id="services-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- Services will be loaded here -->
+            <!-- Grid Layanan -->
+
+            <div id="services-container"
+                class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-4 gap-4 justify-center">
+            </div>
+
+            <!-- Tombol Lihat Semua -->
+            <div class="text-center mt-8">
+                <button id="toggle-services"
+                    class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-6 rounded hidden">
+                    Lihat Semua Layanan
+                </button>
             </div>
 
             <!-- Error Message -->
@@ -301,6 +321,7 @@
             </div>
         </div>
     </section>
+
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="py-16 bg-emerald-50 content-wrapper">
@@ -356,15 +377,52 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-emerald-900 text-white py-8">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <p>&copy; 2023 Albary Travel. All rights reserved.</p>
+    <footer class="bg-emerald-900 text-white py-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Company Info -->
+                <div>
+                    <h2 class="text-xl font-bold mb-4">Albary Travel</h2>
+                    <p class="text-gray-200">Melayani dengan amanah dan profesional untuk perjalanan ibadah Anda.</p>
                 </div>
-                <div id="social-links" class="flex space-x-4">
-                    <!-- Social links will be loaded here -->
+
+                <!-- Office Addresses -->
+                <div>
+                    <h2 class="text-xl font-bold mb-4">Alamat Kantor</h2>
+                    <p class="mb-2">
+                        <span class="font-semibold">Mekkah:</span><br>
+                        Aziziyah, Makkah Al-Mukarramah, Saudi Arabia
+                    </p>
+                    <p>
+                        <span class="font-semibold">Jakarta:</span><br>
+                        Jl. Raya Pasar Minggu No. 45, Jakarta Selatan, Indonesia
+                    </p>
                 </div>
+
+                <!-- Social Media -->
+                <div>
+                    <h2 class="text-xl font-bold mb-4">Ikuti Kami</h2>
+                    <div class="flex space-x-4">
+                        <a href="https://web.facebook.com/albaryharamain/" class="hover:text-emerald-400 transition">
+                            <i class="fab fa-facebook fa-lg"></i>
+                        </a>
+                        <a href="https://www.instagram.com/albary313/" class="hover:text-emerald-400 transition">
+                            <i class="fab fa-instagram fa-lg"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@albary.haromain_1" class="hover:text-emerald-400 transition">
+                            <i class="fab fa-tiktok fa-lg"></i>
+                        </a>
+                        <a href="https://wa.me/6281342296661" class="hover:text-emerald-400 transition">
+                            <i class="fab fa-whatsapp fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="border-t border-emerald-700 mt-8 pt-4 text-center text-sm text-gray-300">
+                <p>&copy; <span id="year"></span> Albary Travel. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -400,6 +458,10 @@
             </div>
         </div>
     </div>
+    <a href="https://wa.me/6281342296661" aria-label="Chat via WhatsApp" class="fixed bottom-5 right-5 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300
+         w-16 h-16 md:w-20 md:h-20 text-2xl md:text-3xl">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <script>
         // Fetch data from JSON
@@ -463,64 +525,67 @@
         }
 
         // Load services
+        let showingAllServices = false; // state global
+
         async function loadServices(services) {
             const container = document.getElementById('services-container');
             const loading = document.getElementById('services-loading');
             const error = document.getElementById('services-error');
+            const toggleButton = document.getElementById('toggle-services');
 
-            // Show loading, hide error and container
             loading.classList.remove('hidden');
             error.classList.add('hidden');
             container.innerHTML = '';
 
             try {
-                // If services is empty, try to fetch data
                 if (!services || services.length === 0) {
                     const data = await fetchData();
                     services = data.services;
                 }
 
-                // Hide loading
                 loading.classList.add('hidden');
 
                 if (services.length === 0) {
                     container.innerHTML = `
-                        <div class="col-span-full text-center py-8">
-                            <i class="fas fa-box-open text-4xl text-gray-400 mb-4"></i>
-                            <p class="text-gray-500">Tidak ada layanan yang tersedia saat ini.</p>
-                        </div>
-                    `;
+        <div class="col-span-full text-center py-8">
+          <i class="fas fa-box-open text-4xl text-gray-400 mb-4"></i>
+          <p class="text-gray-500">Tidak ada layanan yang tersedia saat ini.</p>
+        </div>
+      `;
                     return;
                 }
 
+                // Tentukan jumlah yang ditampilkan
+                const displayedServices = showingAllServices ? services : services.slice(0, 4);
+
                 // Render services
-                services.filter(service => service.active).forEach(service => {
+                displayedServices.filter(service => service.active).forEach(service => {
                     const serviceCard = document.createElement('div');
-                    serviceCard.className = 'bg-white rounded-xl shadow-lg overflow-hidden transition duration-300 service-card slide-in';
+                    serviceCard.className = 'service-card bg-white rounded-lg shadow-md overflow-hidden transition-shadow hover:shadow-lg flex flex-col';
                     serviceCard.innerHTML = `
-                        <div class="relative">
-                            <img src="${service.image}" alt="${service.name}" class="w-full h-48 object-cover">
-                            <div class="absolute top-0 right-0 bg-emerald-600 text-white py-1 px-3 rounded-bl-lg">
-                                <span class="font-bold">${formatCurrency(service.price)}</span>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="text-lg font-bold text-emerald-900 mb-2">${service.name}</h3>
-                            <p class="text-gray-600 mb-4 text-sm">${truncateText(service.description, 80)}</p>
-                            <div class="flex flex-wrap gap-2">
-                                <button class="view-detail bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-1 px-3 rounded-lg transition duration-300 flex-1 text-sm" data-id="${service.id}">
-                                    <i class="fas fa-info-circle mr-1"></i> Detail
-                                </button>
-                                <button class="whatsapp-share bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded-lg transition duration-300 flex-1 text-sm" data-id="${service.id}">
-                                    <i class="fab fa-whatsapp mr-1"></i> Share
-                                </button>
-                            </div>
-                        </div>
-                    `;
+        <div class="w-full h-32 sm:h-36 md:h-40 relative">
+          <img src="${service.image}" alt="${service.name}" class="w-full h-full object-cover">
+          <div class="absolute top-1 right-1 bg-emerald-600 text-white text-xs font-semibold py-0.5 px-2 rounded-bl-md">
+            ${formatCurrency(service.price)}
+          </div>
+        </div>
+        <div class="p-3 flex flex-col justify-between flex-grow">
+          <h3 class="text-sm font-bold text-emerald-900 truncate mb-1" title="${service.name}">${service.name}</h3>
+          <p class="text-xs text-gray-600 line-clamp-2 flex-grow">${truncateText(service.description, 60)}</p>
+          <div class="flex gap-2 mt-3">
+            <button class="view-detail bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-1 px-2 rounded-lg text-xs flex-1 flex items-center justify-center" data-id="${service.id}">
+              <i class="fas fa-info-circle mr-1"></i> Detail
+            </button>
+            <button class="whatsapp-share bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded-lg text-xs flex-1 flex items-center justify-center" data-id="${service.id}">
+              <i class="fab fa-whatsapp mr-1"></i> Share
+            </button>
+          </div>
+        </div>
+      `;
                     container.appendChild(serviceCard);
                 });
 
-                // Add event listeners to detail buttons
+                // Event detail
                 document.querySelectorAll('.view-detail').forEach(button => {
                     button.addEventListener('click', function () {
                         const serviceId = this.getAttribute('data-id');
@@ -529,7 +594,7 @@
                     });
                 });
 
-                // Add event listeners to WhatsApp share buttons
+                // Event WhatsApp
                 document.querySelectorAll('.whatsapp-share').forEach(button => {
                     button.addEventListener('click', function () {
                         const serviceId = this.getAttribute('data-id');
@@ -538,12 +603,23 @@
                     });
                 });
 
+                // Toggle button visibility
+                if (toggleButton) {
+                    toggleButton.classList.remove('hidden');
+                    toggleButton.textContent = showingAllServices ? 'Sembunyikan' : 'Lihat Semua Layanan';
+                    toggleButton.onclick = () => {
+                        showingAllServices = !showingAllServices;
+                        loadServices(services);
+                    };
+                }
+
             } catch (error) {
                 console.error('Error loading services:', error);
                 loading.classList.add('hidden');
                 error.classList.remove('hidden');
             }
         }
+
 
         // Load testimonials
         async function loadTestimonials(testimonials) {
@@ -898,6 +974,8 @@
             loadContactInfo(data.contacts);
             loadSocialLinks(data.socialLinks);
         });
+
+        document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 </body>
 
