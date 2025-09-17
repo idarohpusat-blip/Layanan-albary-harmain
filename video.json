@@ -1,0 +1,48 @@
+{
+  "videos": [
+    {
+      "id": "k1j2h3g4f5d6s7a8",
+      "title": "Pengalaman Umroh Bersama Albary Trevel",
+      "shortDescription": "Testimoni jamaah umroh",
+      "description": "Pengalaman spiritual dan pelayanan terbaik selama menjalankan ibadah umroh bersama Albary Trevel",
+      "platform": "youtube",
+      "category": "Testimoni",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "thumbnail": "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
+      "active": true
+    },
+    {
+      "id": "a9b8c7d6e5f4g3h2",
+      "title": "Perjalanan Wisata Halal ke Turki",
+      "shortDescription": "Eksplorasi keindahan Turki",
+      "description": "Perjalanan wisata halal mengunjungi berbagai tempat bersejarah di Turki dengan pemandu profesional",
+      "platform": "tiktok",
+      "category": "Pelayanan",
+      "url": "https://www.tiktok.com/@username/video/123456789",
+      "thumbnail": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "active": true
+    },
+    {
+      "id": "z1y2x3w4v5u6t7r8",
+      "title": "Prosesi Ibadah Umroh",
+      "shortDescription": "Dokumentasi lengkap ibadah umroh",
+      "description": "Video dokumentasi lengkap prosesi ibadah umroh dari awal hingga akhir",
+      "platform": "youtube",
+      "category": "Dokumentasi",
+      "url": "https://www.youtube.com/watch?v=example",
+      "thumbnail": "https://images.unsplash.com/photo-1589476993835-6521b0455c72?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "active": true
+    },
+    {
+      "id": "p0o9i8u7y6t5r4e3",
+      "title": "Fasilitas Hotel Bintang 5 di Mekkah",
+      "shortDescription": "Review hotel terbaik",
+      "description": "Review lengkap fasilitas hotel bintang 5 yang dekat dengan Masjidil Haram",
+      "platform": "instagram",
+      "category": "Pelayanan",
+      "url": "https://www.instagram.com/p/ABC123/",
+      "thumbnail": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      "active": true
+    }
+  ]
+}
