@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PpAlfatah_14</title>
+    <!-- <link rel="stylesheet" href="./css/style.css"> -->
+    <script src="./js/3.4.17.js"></script>
+    <script src=" ./js/lucide.min.js"></script>
+</head>
+
+<body class="bg-gray-100 flex">
+
+    <!-- Sidebar (Laptop & Tablet) -->
+    <aside
+        class="hidden md:flex w-60 bg-gradient-to-b from-green-700 to-green-900 text-white min-h-screen shadow-lg flex-col">
+        <!-- Logo & Branding -->
+        <div class="p-5 flex  items-center">
+            <img src="../public/img/logo.png" alt="albary" class="w-20  ">
+            <h1 class="text-center">
+                <span class="text-2xl font-extrabold">PpAlfatah</span><br>
+                <span class="text-xl italic font-semibold">Nizamuddin</span>
+            </h1>
+        </div>
+        <hr class="border-green-500 mx-6">
+
+        <!-- Navigation -->
+        <nav class="mt-4 flex-1 flex flex-col gap-2 px-2  ">
+            <a href="#" id="dashboardMenu"
+                class="menu-item text-sm  flex items-center gap-3 px-4 py-1 rounded-lg font-semibold shadow-md shadow-green-500 border-2 border-green-500 hover:bg-green-700 transition-all duration-200">
+                <i data-lucide="home" class="border-2 rounded-full w-10 h-10 p-2 text-white"></i>
+                Dashboard
+            </a>
+
+            <!-- Layanan dengan Submenu -->
+            <ol>
+                <div class="relative">
+                    <a href="#"
+                        class="menu-item text-sm flex items-center gap-3 px-4 py-1 rounded-lg hover:bg-green-700 transition-all duration-200"
+                        data-submenu="layananSub">
+                        <i data-lucide="users" class="border-2 rounded-full w-10 h-10 p-2 text-white"></i>
+                        Santri
+                        <i data-lucide="chevron-down" class="ml-auto w-4 h-4 text-white"></i>
+                    </a>
+                    <div id="layananSub" class="ml-12 mt-1 space-y-1 hidden">
+                        <a href="#" id="pendafatarnmenu"
+                            class="flex items-center gap-2 px-4 py-1 rounded-lg hover:bg-green-600 transition-all duration-200">
+
+                            <i data-lucide="file-plus" class="w-4 h-4"></i> Pendaftaran
+                        </a>
+                        <a href="#" id="santrimenu"
+                            class="flex items-center gap-2 px-4 py-1 rounded-lg hover:bg-green-600 transition-all duration-200">
+                            <i data-lucide="users" class="w-4 h-4"></i> Data Santri
+                        </a>
+                        <!-- List Data Pesanan -->
+                        <a href="#" id="listpesananmenu"
+                            class="flex items-center gap-2 px-4 py-1 rounded-lg hover:bg-green-600 transition-all duration-200">
+                            <i data-lucide="list-checks" class="w-4 h-4"></i> List Data Pesanan
+                        </a>
+                        <a href="#" id="laporanlayananmenu"
+                            class="flex items-center gap-2 px-4 py-1 rounded-lg hover:bg-green-600 transition-all duration-200">
+                            <i data-lucide="file-text" class="w-4 h-4"></i> Laporan
+                        </a>
+                    </div>
+                </div>
+                <div class="relative">
+                    <a href="#"
+                        class="menu-item text-sm flex items-center gap-3 px-4 py-1 rounded-lg hover:bg-green-700 transition-all duration-200"
+                        data-submenu="yayasanSub">
+                        <i data-lucide="wallet" class="border-2 rounded-full w-10 h-10 p-2 text-white"></i>
+                        yayasan
+                        <i data-lucide="chevron-down" class="ml-auto w-4 h-4 text-white"></i>
+                    </a>
+                    <div id="yayasanSub" class="ml-12 mt-1 space-y-1 hidden">
+
+                        <!-- Transaksi -->
+                        <a href="#" id="inputkeuntunganmenu"
+                            class="flex items-center gap-2 px-4 py-1 rounded-lg hover:bg-green-600 transition-all duration-200">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i> Input Margin
+                        </a>
+                        <a href="#" id="transaksimenu"
+                            class="flex items-center gap-2 px-4 py-1 rounded-lg hover:bg-green-600 transition-all duration-200">
+                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Transaksi
+                        </a>
+
+                        <!-- Saldo -->
+                        <a href="#" id="saldomenu"
+                            class="flex items-center gap-2 px-4 py-1 rounded-lg hover:bg-green-600 transition-all duration-200">
+                            <i data-lucide="banknote" class="w-4 h-4"></i> Saldo
+                        </a>
+
+                        <!-- Hutang / Piutang -->
+                        <a href="#" id="hutangmenu"
+                            class="flex items-center gap-2 px-4 py-1 rounded-lg hover:bg-green-600 transition-all duration-200">
+                            <i data-lucide="hand-coins" class="w-4 h-4"></i> Hutang / Piutang
+                        </a>
+
+                        <!-- Laporan -->
+                        <a href="#" id="laporanyayasanmenu"
+                            class="flex items-center gap-2 px-4 py-1 rounded-lg hover:bg-green-600 transition-all duration-200">
+                            <i data-lucide="file-text" class="w-4 h-4"></i> Laporan
+                        </a>
+                    </div>
+                </div>
+
+                <a href="#" id="reportsMenu"
+                    class="menu-item text-sm flex items-center gap-3 px-4 py-1 rounded-lg hover:bg-green-700 transition-all duration-200">
+                    <i data-lucide="file-text" class="border-2 rounded-full w-10 h-10 p-2 text-white"></i>
+                    Reports
+                </a>
+
+                <div class="text-center font-semibold text-slate-400">Account pages</div>
+
+                </li>
+
+                <a href="#" id="profilMenu"
+                    class="menu-item text-sm flex items-center gap-3 px-4 py-1 rounded-lg hover:bg-green-700 transition-all duration-200">
+                    <i data-lucide="user" class="border-2 rounded-full w-10 h-10 p-2 text-white"></i>
+                    Profil
+                </a>
+                <a href="#" id="usersMenu"
+                    class="menu-item text-sm flex items-center gap-3 px-4 py-1 rounded-lg hover:bg-green-700 transition-all duration-200">
+                    <i data-lucide="users" class="border-2 rounded-full w-10 h-10 p-2 text-white"></i>
+                    Users
+                </a>
+                <a href="#" id="keluarMenu"
+                    class="menu-item text-sm flex items-center gap-3 px-4 py-1 rounded-lg hover:bg-red-700 transition-all duration-200">
+                    <i data-lucide="log-out" class="border-2 rounded-full w-10 h-10 p-2 text-white"></i>
+                    Keluar
+                </a>
+            </ol>
+        </nav>
+    </aside>
+
+    <div class="w-full flex-1 flex flex-col h-screen bg-center bg-cover  "
+        style="background-image: url('./img/Bacground.png');">
+
+
+        <header id="pageHeader w-full"
+            class="mx-2 mt-1 backdrop-blur-md shadow-md p-4 flex justify-between items-center sticky top-0 z-50">
+            <h1 id="headerTitle" class="text-lg sm:text-xl md:text-2xl font-bold text-green-900"></h1>
+            <div class="flex items-center gap-4">
+                <button
+                    class="relative p-2 rounded-full hover:bg-green-100 transition-transform transform hover:scale-110">
+                    <i data-lucide="bell" class="w-6 h-6 text-green-800"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                </button>
+                <div class="mt-3 mx-3 relative flex flex-col items-center">
+                    <button id="userBtn"
+                        class="rounded-full hover:bg-green-100 transition-transform transform hover:scale-110">
+                        <i data-lucide="user-circle" class="w-6 h-6 text-green-800"></i>
+                    </button>
+
+                    <!-- Tombol / indikator di bawah user -->
+                    <button id="statusBtn" class=" mt-1 text-sm px-2 rounded-full font-semibold text-white bg-red-500">
+                        Offline
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <iframe id="mainContent" class="h-full m-2" src="" frameborder="0"></iframe>
+
+    </div>
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-gradient-to-r from-green-600 to-green-800 text-white flex justify-around py-3 shadow-t-lg">
+        <a href="#" class="flex flex-col items-center text-xs text-green-200">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            Albary
+        </a>
+        <a href="#" class="flex flex-col items-center text-xs hover:text-green-300">
+            <i data-lucide="users" class="w-5 h-5"></i>
+            Users
+        </a>
+        <a href="#" class="flex flex-col items-center text-xs hover:text-green-300">
+            <i data-lucide="file-text" class="w-5 h-5"></i>
+            Reports
+        </a>
+        <a href="#" class="flex flex-col items-center text-xs hover:text-green-300">
+            <i data-lucide="settings" class="w-5 h-5"></i>
+            Settings
+        </a>
+        <!-- Tombol toggle sidebar full -->
+        <button id="hamburgerBtn" class="flex flex-col items-center text-xs text-green-200">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+            Menu
+        </button>
+    </nav>
+    <script src="js/javascript.js"></script>
+    <!-- <script src="js/api.js"></script> -->
+    <script>
+        const Token = localStorage.getItem('token_alhanur')
+        const userJson = sessionStorage.getItem('user'); // atau localStorage.getItem('user')
+        if (!userJson) {
+            // tidak ada user -> redirect ke login
+            window.location.replace('/PpAlfatah_14/public/login.html'); // ganti path sesuai struktur kamu
+        } else {
+            // opsional: parse dan cek minimal field
+            try {
+                const user = JSON.parse(userJson);
+                if (!user.username) {
+                    sessionStorage.removeItem('user');
+                    window.location.replace('/PpAlfatah_14/public/login.html');
+                }
+                // jika mau, tampilkan nama:
+                document.addEventListener('DOMContentLoaded', () => {
+                    const el = document.getElementById('namaUser');
+                    if (el) el.textContent = user.nama_lengkap || user.username;
+                });
+            } catch (e) {
+                sessionStorage.removeItem('user');
+                window.location.replace('/PpAlfatah_14/public/login.html');
+            }
+        }
+
+        const statusa = document.getElementById("statusBtn");
+
+        fetch('https://localhost/PpAlfatah_14/db/api.php', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer" + Token
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Server nyambung ✅');
+                    const userJson = sessionStorage.getItem('user');
+                    const objek = JSON.parse(userJson);
+                    statusa.textContent = objek.nama_lengkap;
+                    statusa.className = "mt-1 text-sm px-2 rounded-full font-semibold text-white bg-green-500";
+                    return response.json(); // atau response.text()
+                } else {
+                    console.log('Server ada tapi ada error status:', response.status);
+                }
+            })
+            .catch(error => {
+                statusa.textContent = "Offline";
+                statusa.className = "mt-1 text-sm px-2 rounded-full font-semibold text-white bg-red-500";
+            });
+
+    </script>
+</body>
+
+</html>
