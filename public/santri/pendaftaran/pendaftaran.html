@@ -158,7 +158,7 @@
 
         async function loadData(search = "") {
             try {
-                const res = await fetch("https://localhost/PpAlfatah_14/db/api.php", {
+                const res = await fetch("https://10.10.1.7/PpAlfatah_14/db/api.php", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -277,7 +277,7 @@
 
         function bukaDetail(id) {
             const d = pendaftarData.find(x => x.id == id);
-            const baseURL = "https://localhost/PpAlfatah_14/public/santri/img/";
+            const baseURL = "https://10.10.1.7/PpAlfatah_14/public/santri/img/";
             document.getElementById("detailPhoto").src = baseURL + d.url_photo.split("/").pop();
             document.getElementById("detailNama").textContent = d.nama_lengkap;
             document.getElementById("detailStatus").textContent = d.status;
@@ -311,7 +311,7 @@
         function bukaForm(id = null) {
             const f = document.getElementById("formPendaftaran");
             f.reset();
-            const baseURL = "https://localhost/PpAlfatah_14/public/santri/img/";
+            const baseURL = "https://10.10.1.7/PpAlfatah_14/public/santri/img/";
 
             document.getElementById("formId").value = id || "";
             formTitle.textContent = id ? "Edit Pendaftaran" : "Tambah Pendaftaran";
@@ -368,7 +368,7 @@
             }
 
             try {
-                const res = await fetch("https://localhost/PpAlfatah_14/db/api.php", {
+                const res = await fetch("https://10.10.1.7/PpAlfatah_14/db/api.php", {
                     method: "POST",
                     headers: {
                         "Authorization": "Bearer" + Token
