@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="../../js/3.4.17.js"></script>
+    <script src=" ../../js/lucide.min.js"></script>
+</head>
+
+<body class="bg-green-50 min-h-screen flex flex-col items-center py-10">
+
+    <!-- Container Utama -->
+    <div class="w-11/12 max-w-7xl bg-white shadow-lg rounded-2xl p-6 border-t-8 border-green-600">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-3">
+            <h1 class="text-2xl font-bold text-green-700 flex items-center gap-2">
+                <i data-lucide="clipboard-list"></i> Tabel Pendaftaran
+            </h1>
+
+            <div class="flex gap-2 items-center">
+                <input id="searchInput" type="text" placeholder="Cari NIK / No / Nama..."
+                    class="border border-green-300 rounded-lg px-3 py-2 w-60 focus:outline-none focus:ring-2 focus:ring-green-400 text-sm">
+                <button id="btnTambah"
+                    class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl shadow transition text-sm">
+                    <i data-lucide="user-plus"></i> Tambah
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabel -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full border border-green-200 rounded-xl overflow-hidden text-sm">
+                <thead class="bg-green-600 text-white">
+                    <tr>
+                        <th class="px-4 py-2 text-left">No</th>
+                        <th class="px-4 py-2 text-left">No Urut</th>
+                        <th class="px-4 py-2 text-left">NIK</th>
+                        <th class="px-4 py-2 text-left">Nama Panggilan</th>
+                        <th class="px-4 py-2 text-left">Nama Lengkap</th>
+                        <th class="px-4 py-2 text-left">Kepala Keluarga</th>
+                        <th class="px-4 py-2 text-left">Status</th>
+                        <th class="px-4 py-2 text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelBody" class="divide-y divide-green-100 bg-white"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal DETAIL -->
+    <div id="modalDetail" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl w-11/12 max-w-2xl p-6 relative shadow-xl">
+            <button id="closeDetail" class="absolute top-3 right-3 text-gray-600 hover:text-red-500">
+                <i data-lucide="x"></i>
+            </button>
+            <div class="flex flex-col items-center gap-4">
+                <img id="detailPhoto" src="" alt="Foto"
+                    class="w-32 h-32 rounded-full object-cover border-4 border-green-400 shadow-md">
+                <h2 id="detailNama" class="text-xl font-bold text-green-700"></h2>
+                <p id="detailStatus" class="text-sm text-gray-600"></p>
+            </div>
+
+            <div class="mt-4 border-t pt-4 text-sm text-gray-700 grid grid-cols-2 gap-y-2 gap-x-4">
+                <p><strong>NIK:</strong> <span id="detailNik"></span></p>
+                <p><strong>No KK:</strong> <span id="detailNoKK"></span></p>
+                <p><strong>No Pendaftaran:</strong> <span id="detailNoPendaftaran"></span></p>
+                <p><strong>Tempat Lahir:</strong> <span id="detailTempatLahir"></span></p>
+                <p><strong>Tanggal Lahir:</strong> <span id="detailTanggalLahir"></span></p>
+                <p><strong>Jenis Kelamin:</strong> <span id="detailJenisKelamin"></span></p>
+                <p><strong>Agama:</strong> <span id="detailAgama"></span></p>
+                <p><strong>Pendidikan Sebelumnya:</strong> <span id="detailPendidikan"></span></p>
+                <p><strong>Kepala Keluarga:</strong> <span id="detailKepala"></span></p>
+                <p><strong>Hubungan:</strong> <span id="detailHubungan"></span></p>
+                <p><strong>Alamat:</strong> <span id="detailAlamat"></span></p>
+                <p><strong>RT/RW:</strong> <span id="detailRTRW"></span></p>
+                <p><strong>Kelurahan:</strong> <span id="detailKelurahan"></span></p>
+                <p><strong>Kecamatan:</strong> <span id="detailKecamatan"></span></p>
+                <p><strong>Kota/Kab:</strong> <span id="detailKota"></span></p>
+                <p><strong>Provinsi:</strong> <span id="detailProvinsi"></span></p>
+                <p><strong>No HP:</strong> <span id="detailHP"></span></p>
+                <p><strong>Email:</strong> <span id="detailEmail"></span></p>
+                <p><strong>Tanggal Daftar:</strong> <span id="detailTglDaftar"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal FORM -->
+    <div id="modalForm" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-2xl w-11/12 max-w-2xl p-6 relative shadow-xl overflow-y-auto max-h-[90vh]">
+            <button id="closeForm" class="absolute top-3 right-3 text-gray-600 hover:text-red-500">
+                <i data-lucide="x"></i>
+            </button>
+            <h2 id="formTitle" class="text-xl font-bold text-green-700 mb-4">Tambah Pendaftaran</h2>
+
+            <form id="formPendaftaran" class="grid grid-cols-2 gap-3 text-sm">
+                <input type="hidden" id="formId" name="id">
+                <input class="border rounded p-2" type="hidden" id="no_pendaftaran" name="no_pendaftaran"
+                    placeholder="No Pendaftaran">
+                <input class="border rounded p-2" id="no_kk" name="no_kk" placeholder="No KK" value="1234567890123456">
+                <input class="border rounded p-2" id="nik" name="nik" placeholder="NIK" value="3216549870123456">
+                <input class="border rounded p-2" id="nama_lengkap" name="nama_lengkap" placeholder="Nama Lengkap"
+                    value="Jamaluddin Albary">
+                <input class="border rounded p-2" id="nama_panggilan" name="nama_panggilan" placeholder="Nama Panggilan"
+                    value="Jamal">
+                <input class="border rounded p-2" id="tempat_lahir" name="tempat_lahir" placeholder="Tempat Lahir"
+                    value="Parepare">
+                <input class="border rounded p-2" id="tanggal_lahir" name="tanggal_lahir" type="date"
+                    value="1999-02-05">
+                <input class="border rounded p-2" id="jenis_kelamin" name="jenis_kelamin" placeholder="Jenis Kelamin"
+                    value="Laki-laki">
+                <input class="border rounded p-2" id="agama" name="agama" placeholder="Agama" value="Islam">
+                <input class="border rounded p-2" id="pendidikan_sebelumnya" name="pendidikan_sebelumnya"
+                    placeholder="Pendidikan Sebelumnya" value="Pondok Pesantren Al-Fatah">
+                <input class="border rounded p-2" id="kepala_keluarga" name="kepala_keluarga"
+                    placeholder="Kepala Keluarga" value="Bapak Albary">
+                <input class="border rounded p-2" id="hubungan_dengan_kepala" name="hubungan_dengan_kepala"
+                    placeholder="Hubungan" value="Anak">
+                <input class="border rounded p-2" id="alamat" name="alamat" placeholder="Alamat"
+                    value="Jl. Contoh No.1">
+                <input class="border rounded p-2" id="rt_rw" name="rt_rw" placeholder="RT/RW" value="001/002">
+                <input class="border rounded p-2" id="kelurahan" name="kelurahan" placeholder="Kelurahan"
+                    value="Kelurahan Contoh">
+                <input class="border rounded p-2" id="kecamatan" name="kecamatan" placeholder="Kecamatan"
+                    value="Kecamatan Contoh">
+                <input class="border rounded p-2" id="kota_kab" name="kota_kab" placeholder="Kota/Kabupaten"
+                    value="Parepare">
+                <input class="border rounded p-2" id="provinsi" name="provinsi" placeholder="Provinsi"
+                    value="Sulawesi Selatan">
+                <input class="border rounded p-2" id="no_hp" name="no_hp" placeholder="No HP" value="081234567890">
+                <input class="border rounded p-2" id="email" name="email" placeholder="Email" value="jamal@example.com">
+                <div class="col-span-2 flex flex-col items-center">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Foto</label>
+                    <input type="file" id="url_photo" name="url_photo" accept="image/*"
+                        class="border rounded p-2 w-full cursor-pointer">
+                    <img id="previewPhoto" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Preview Foto"
+                        class="mt-3 w-24 h-24 rounded-full object-cover border-2 border-green-400 shadow">
+                </div>
+
+                <input class="border rounded p-2" id="tanggal_daftar" name="tanggal_daftar" type="date">
+            </form>
+            <div class="mt-4 flex justify-end gap-2">
+                <button id="simpanData"
+                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const Token = localStorage.getItem('token_alhanur')
+
+        lucide.createIcons();
+
+
+        let pendaftarData = [];
+
+        const searchInput = document.getElementById("searchInput");
+
+        async function loadData(search = "") {
+            try {
+                const res = await fetch("https://localhost/PpAlfatah_14/db/api.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer" + Token
+                    },
+                    body: JSON.stringify({
+                        tabel: "pendaftar",
+                        search: search,            // kirim keyword search ke server
+                        searchKolom: "no_pendaftaran,nik,nama_panggilan,nama_lengkap" // kolom yang dicari
+                    })
+                });
+
+                const data = await res.json();
+                if (data.status === "success" && Array.isArray(data.data)) {
+                    pendaftarData = data.data;
+                    renderTable(pendaftarData);
+                } else {
+                    console.error("Data tidak valid:", data);
+                    renderTable([]); // kosongkan tabel
+                }
+
+            } catch (err) {
+                console.error("Fetch gagal:", err);
+                renderTable([]); // kosongkan tabel
+            }
+        }
+        loadData()
+
+
+
+        // Fungsi pencarian
+        searchInput.addEventListener("input", () => {
+            const q = searchInput.value.trim();
+
+            if (q.length >= 2) {
+                loadData(q); // fetch ke server hanya jika >=2 karakter
+            } else if (q.length === 0) {
+                loadData(); // jika kosong, load semua data
+            }
+        });
+
+        // Preview Foto otomatis saat upload
+        const inputPhoto = document.getElementById("url_photo");
+        const previewPhoto = document.getElementById("previewPhoto");
+
+
+
+        inputPhoto.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewPhoto.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+
+
+        const tabelBody = document.getElementById("tabelBody");
+        const modalDetail = document.getElementById("modalDetail");
+        const modalForm = document.getElementById("modalForm");
+        const closeDetail = document.getElementById("closeDetail");
+        const closeForm = document.getElementById("closeForm");
+        const btnTambah = document.getElementById("btnTambah");
+        const formTitle = document.getElementById("formTitle");
+        // const simpanData = document.getElementById("simpanData");
+
+        function renderTable(data) {
+            console.log(data);
+            tabelBody.innerHTML = ""; // kosongkan dulu
+            data.forEach((d, i) => {
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-green-50 transition";
+                tr.innerHTML = `
+          <td class="px-4 py-2">${i + 1}</td>
+          <td class="px-4 py-2">${d.no_pendaftaran}</td>
+          <td class="px-4 py-2">${d.nik}</td>
+          <td class="px-4 py-2">${d.nama_panggilan}</td>
+          <td class="px-4 py-2">${d.nama_lengkap}</td>
+          <td class="px-4 py-2">${d.kepala_keluarga}</td>
+           <td class="px-4 py-2">
+        ${d.status === "Aktif"
+                        ? `<span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">Aktif</span>`
+                        : `<button class="aktifkan bg-green-500 hover:bg-green-600 text-white px-2 py-1 text-xs rounded-md" data-id="${d.id}">Aktifkan</button>`
+                    }
+      </td>
+         <td class="px-4 py-2 text-center">
+  <div class="flex justify-center gap-1">
+    <button class="detail bg-blue-500 hover:bg-blue-600 text-white p-1.5 rounded-md" data-id="${d.id}">
+      <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+    </button>
+    <button class="edit bg-yellow-500 hover:bg-yellow-600 text-white p-1.5 rounded-md" data-id="${d.id}">
+      <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+    </button>
+    <button class="hapus bg-red-500 hover:bg-red-600 text-white p-1.5 rounded-md" data-id="${d.id}">
+      <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+    </button>
+  </div>
+</td>`;
+                tabelBody.appendChild(tr);
+            });
+            lucide.createIcons();
+            aktifkanTombol();
+        }
+
+
+
+
+        function aktifkanTombol() {
+            document.querySelectorAll(".detail").forEach(btn => btn.onclick = () => bukaDetail(btn.dataset.id));
+            document.querySelectorAll(".edit").forEach(btn => btn.onclick = () => bukaForm(btn.dataset.id));
+            document.querySelectorAll(".hapus").forEach(btn => btn.onclick = () => hapusData(btn.dataset.id));
+        }
+
+        function bukaDetail(id) {
+            const d = pendaftarData.find(x => x.id == id);
+            const baseURL = "https://localhost/PpAlfatah_14/public/santri/img/";
+            document.getElementById("detailPhoto").src = baseURL + d.url_photo.split("/").pop();
+            document.getElementById("detailNama").textContent = d.nama_lengkap;
+            document.getElementById("detailStatus").textContent = d.status;
+            [
+                ["detailNik", d.nik],
+                ["detailNoKK", d.no_kk],
+                ["detailNoPendaftaran", d.no_pendaftaran],
+                ["detailTempatLahir", d.tempat_lahir],
+                ["detailTanggalLahir", d.tanggal_lahir],
+                ["detailJenisKelamin", d.jenis_kelamin],
+                ["detailAgama", d.agama],
+                ["detailPendidikan", d.pendidikan_sebelumnya],
+                ["detailKepala", d.kepala_keluarga],
+                ["detailHubungan", d.hubungan_dengan_kepala],
+                ["detailAlamat", d.alamat],
+                ["detailRTRW", d.rt_rw],
+                ["detailKelurahan", d.kelurahan],
+                ["detailKecamatan", d.kecamatan],
+                ["detailKota", d.kota_kab],
+                ["detailProvinsi", d.provinsi],
+                ["detailHP", d.no_hp],
+                ["detailEmail", d.email],
+                ["detailTglDaftar", d.tanggal_daftar]
+            ].forEach(([idEl, val]) => document.getElementById(idEl).textContent = val || "-");
+            modalDetail.classList.remove("hidden");
+            modalDetail.classList.add("flex");
+        }
+
+        closeDetail.onclick = () => modalDetail.classList.add("hidden");
+
+        function bukaForm(id = null) {
+            const f = document.getElementById("formPendaftaran");
+            f.reset();
+            const baseURL = "https://localhost/PpAlfatah_14/public/santri/img/";
+
+            document.getElementById("formId").value = id || "";
+            formTitle.textContent = id ? "Edit Pendaftaran" : "Tambah Pendaftaran";
+
+            if (id) {
+                const d = pendaftarData.find(x => x.id == id);
+                Object.keys(d).forEach(k => {
+                    const el = document.getElementById(k);
+                    if (el && el.type !== "file") {
+                        if (el.type === "date" && d[k]) {
+                            // ubah ke format YYYY-MM-DD
+                            const tanggal = new Date(d[k]);
+                            if (!isNaN(tanggal)) {
+                                el.value = tanggal.toISOString().split("T")[0];
+                            } else {
+                                el.value = d[k]; // fallback kalau sudah format YYYY-MM-DD
+                            }
+                        } else {
+                            el.value = d[k];
+                        }
+                    }
+                });
+                // tampilkan foto lama di preview
+                if (d.url_photo) previewPhoto.src = baseURL + d.url_photo.split("/").pop();
+            }
+
+            modalForm.classList.remove("hidden");
+            modalForm.classList.add("flex");
+        }
+
+        closeForm.onclick = () => modalForm.classList.add("hidden");
+
+        document.getElementById('simpanData').addEventListener('click', async () => {
+            const form = document.getElementById('formPendaftaran');
+            const formData = new FormData();
+
+            // ambil semua input selain file
+            const dataObj = {};
+            [...form.elements].forEach(el => {
+                if (el.name && el.type !== 'file') {
+                    dataObj[el.name] = el.value;
+                }
+            });
+
+            // tambahkan JSON ke FormData
+            formData.append('aksi', 'insertpendaftaran');
+            formData.append('tabel', 'pendaftar');
+            formData.append('data', JSON.stringify(dataObj));
+
+            // tambahkan file foto (jika ada)
+            const fileInput = document.getElementById('url_photo');
+            if (fileInput.files.length > 0) {
+                formData.append('url_photo', fileInput.files[0]);
+            }
+
+            try {
+                const res = await fetch("https://localhost/PpAlfatah_14/db/api.php", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer" + Token
+                        // ❌ jangan set "Content-Type" biarkan otomatis diatur oleh browser
+                    },
+                    body: formData
+                });
+
+                const text = await res.text();
+                console.log("Respon server:", text);
+
+                try {
+                    const data = JSON.parse(text);
+                    if (data.status === 'success') {
+                        alert('Data berhasil disimpan!');
+                        form.reset();
+                        document.getElementById('previewPhoto').src = 'https://randomuser.me/api/portraits/men/32.jpg';
+                        loadData();
+                    } else {
+                        alert('Error: ' + (data.message || text));
+                    }
+                } catch {
+                    alert('Server merespon non-JSON: ' + text);
+                }
+
+            } catch (err) {
+                console.error('Fetch error:', err);
+                alert('Gagal mengirim data, cek koneksi atau server.');
+            }
+        });
+
+
+
+        function hapusData(id) {
+            if (confirm("Yakin ingin menghapus data ini?")) {
+                const i = pendaftarData.findIndex(d => d.id == id);
+                if (i > -1) data.splice(i, 1);
+                renderTable();
+            }
+        }
+
+        btnTambah.onclick = () => bukaForm();
+
+
+    </script>
+
+</body>
+
+</html>
