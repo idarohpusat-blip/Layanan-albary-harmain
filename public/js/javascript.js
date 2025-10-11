@@ -167,7 +167,7 @@ document.getElementById("keluarMenu").addEventListener("click", logout);
 
 let timeout;
 
-Set durasi 5 menit (300000 ms)
+// Set durasi 5 menit (300000 ms)
 const LOGOUT_TIME = 5 * 60 * 1000;
 
 Reset timer setiap ada aktivitas
