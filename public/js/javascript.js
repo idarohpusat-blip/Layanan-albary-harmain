@@ -165,29 +165,29 @@ window.onclick = function (event) {
 // ===== AWAL KODE KHUSUS HALAMAN Logout =====
 document.getElementById("keluarMenu").addEventListener("click", logout);
 
-// let timeout;
+let timeout;
 
-// Set durasi 5 menit (300000 ms)
-// const LOGOUT_TIME = 5 * 60 * 1000;
+Set durasi 5 menit (300000 ms)
+const LOGOUT_TIME = 5 * 60 * 1000;
 
-// Reset timer setiap ada aktivitas
-// function resetTimer() {
-//     clearTimeout(timeout);
-//     timeout = setTimeout(() => {
-//         alert("Anda keluar karena tidak ada aktivitas selama 5 menit.");
-//         sessionStorage.removeItem('user'); // hapus session
-//         window.location.href = "login.html"; // redirect ke login
-//     }, LOGOUT_TIME);
-// }
+Reset timer setiap ada aktivitas
+function resetTimer() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        alert("Anda keluar karena tidak ada aktivitas selama 5 menit.");
+        sessionStorage.removeItem('user'); // hapus session
+        window.location.href = "login.html"; // redirect ke login
+    }, LOGOUT_TIME);
+}
 
 // List aktivitas yang dianggap "aktif"
-// window.addEventListener("mousemove", resetTimer);
-// window.addEventListener("keydown", resetTimer);
-// window.addEventListener("click", resetTimer);
-// window.addEventListener("scroll", resetTimer);
+window.addEventListener("mousemove", resetTimer);
+window.addEventListener("keydown", resetTimer);
+window.addEventListener("click", resetTimer);
+window.addEventListener("scroll", resetTimer);
 
 // Mulai timer pertama kali saat halaman dibuka
-// resetTimer();
+resetTimer();
 
 function logout() {
     // Hapus token terenkripsi
